@@ -50,9 +50,9 @@ public class GenInfo
     {
         return age;
     }
-    public void SetAge(string inStr)
+    public void SetAge(int inInt)
     {
-        age = int.Parse("inInt");
+        age = inInt;
     }
     public static string GetPersonality()
     {
@@ -111,20 +111,18 @@ public class GenInfo
         maritalStatus = int.Parse("inInt");
     }
 
-    public GenInfo NewDonor()
+    public GenInfo()
     {
-        GenInfo gen = new GenInfo();
-        gen.SetGender(RandParseFile("/text.txt"));
-        gen.SetRace(RandParseFile("/text.txt"));
-        gen.SetAge(RandParseFile("/text.txt"));
-        gen.SetPersonality(RandParseFile("/text.txt"));
-        gen.SetLike(RandParseFile("/text.txt"));
-        gen.SetDislike(RandParseFile("/text.txt"));
-        gen.SetPob(RandParseFile("/text.txt"));
-        gen.SetEducation(RandParseFile("/text.txt"));
-        gen.SetProfession(RandParseFile("/text.txt"));
-        gen.SetMarital(RandParseFile("/text.txt"));
-        return gen;
+        gender = (RandParseFile("/gentext.txt"));
+        race = (RandParseFile("/racetext.txt"));
+        age = ((int)(Random.Range(2.5f, 8.0f) * 10));
+        personality = (RandParseFile("/pertext.txt"));
+        likes = (RandParseFile("/liketext.txt"));
+        dislikes = (RandParseFile("/distext.txt"));
+        pob = (RandParseFile("/pobtext.txt"));
+        education = (RandParseFile("/edtext.txt"));
+        profession = (RandParseFile("/protext.txt"));
+        maritalStatus = (int)(Random.Range(1.0f, 5.99f));
     }
     public string RandParseFile(string filePath)
     {
