@@ -30,7 +30,7 @@ public class GenInfo
     private string education;
     private string profession;
     private int maritalStatus;
-    public string GetGender()
+    public static string GetGender()
     {
         return gender;
     }
@@ -38,7 +38,7 @@ public class GenInfo
     {
         gender = inStr;
     }
-    public string GetRace()
+    public static string GetRace()
     {
         return race;
     }
@@ -46,7 +46,7 @@ public class GenInfo
     {
         race = inStr;
     }
-    public int GetAge()
+    public static int GetAge()
     {
         return age;
     }
@@ -54,7 +54,7 @@ public class GenInfo
     {
         age = inInt;
     }
-    public string GetPersonality()
+    public static string GetPersonality()
     {
         return personality;
     }
@@ -62,7 +62,7 @@ public class GenInfo
     {
         personality = inStr;
     }
-    public string GetLike()
+    public static string GetLike()
     {
         return likes;
     }
@@ -70,7 +70,7 @@ public class GenInfo
     {
         likes = inStr;
     }
-    public string GetDislike()
+    public static string GetDislike()
     {
         return dislikes;
     }
@@ -78,7 +78,7 @@ public class GenInfo
     {
         dislikes = inStr;
     }
-    public string GetPob()
+    public static string GetPob()
     {
         return pob;
     }
@@ -86,7 +86,7 @@ public class GenInfo
     {
         pob = inStr;
     }
-    public string GetEducation()
+    public static string GetEducation()
     {
         return education;
     }
@@ -94,7 +94,7 @@ public class GenInfo
     {
         education = inStr;
     }
-    public string GetProfession()
+    public static string GetProfession()
     {
         return profession;
     }
@@ -102,7 +102,7 @@ public class GenInfo
     {
         profession = inStr;
     }
-    public int GetMarital()
+    public static int GetMarital()
     {
         return maritalStatus;
     }
@@ -112,10 +112,17 @@ public class GenInfo
     }
 
 
-    static void ParseFile()
+    public string RandParseFile(string filePath)
     {
-        string path = "Assets/test.txt";
+        string path = Application.persistentDataPath + filePath;
         StreamReader reader = new StreamReader(path);
+        string text = "";
+        int rand = (int)(Random.Range(0.0f, 1.0f) * 10f);
+        for(int i = 0; i < rand; i++)
+        {
+            text = reader.ReadLine();
+        }
         reader.Close();
+        return text;
     }
 }
