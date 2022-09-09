@@ -50,9 +50,9 @@ public class GenInfo
     {
         return age;
     }
-    public void SetAge(int inInt)
+    public void SetAge(string inStr)
     {
-        age = inInt;
+        age = int.Parse("inInt");
     }
     public static string GetPersonality()
     {
@@ -106,12 +106,26 @@ public class GenInfo
     {
         return maritalStatus;
     }
-    public void SetMarital(int inInt)
+    public void SetMarital(string inStr)
     {
-        maritalStatus = inInt;
+        maritalStatus = int.Parse("inInt");
     }
 
-
+    public GenInfo NewDonor()
+    {
+        GenInfo gen = new GenInfo();
+        gen.SetGender(RandParseFile("/text.txt"));
+        gen.SetRace(RandParseFile("/text.txt"));
+        gen.SetAge(RandParseFile("/text.txt"));
+        gen.SetPersonality(RandParseFile("/text.txt"));
+        gen.SetLike(RandParseFile("/text.txt"));
+        gen.SetDislike(RandParseFile("/text.txt"));
+        gen.SetPob(RandParseFile("/text.txt"));
+        gen.SetEducation(RandParseFile("/text.txt"));
+        gen.SetProfession(RandParseFile("/text.txt"));
+        gen.SetMarital(RandParseFile("/text.txt"));
+        return gen;
+    }
     public string RandParseFile(string filePath)
     {
         string path = Application.persistentDataPath + filePath;
@@ -119,6 +133,18 @@ public class GenInfo
         string text = "";
         int rand = (int)(Random.Range(0.0f, 1.0f) * 10f);
         for(int i = 0; i < rand; i++)
+        {
+            text = reader.ReadLine();
+        }
+        reader.Close();
+        return text;
+    }
+    public string ParseFile(string filePath, int offSet)
+    {
+        string path = Application.persistentDataPath + filePath;
+        StreamReader reader = new StreamReader(path);
+        string text = "";
+        for (int i = 0; i < offSet; i++)
         {
             text = reader.ReadLine();
         }
