@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+public class Generator : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        
+        GenInfo testInfo = new GenInfo();
+        Debug.Log(testInfo.GetAge());
     }
 
     // Update is called once per frame
@@ -30,15 +31,15 @@ public class GenInfo
     private string education;
     private string profession;
     private int maritalStatus;
-    public static string GetGender()
+    public string GetGender()
     {
-        return gender;
+        return this.gender;
     }
     public void SetGender(string inStr)
     {
         gender = inStr;
     }
-    public static string GetRace()
+    public string GetRace()
     {
         return race;
     }
@@ -46,7 +47,7 @@ public class GenInfo
     {
         race = inStr;
     }
-    public static int GetAge()
+    public int GetAge()
     {
         return age;
     }
@@ -54,7 +55,7 @@ public class GenInfo
     {
         age = inInt;
     }
-    public static string GetPersonality()
+    public string GetPersonality()
     {
         return personality;
     }
@@ -62,7 +63,7 @@ public class GenInfo
     {
         personality = inStr;
     }
-    public static string GetLike()
+    public string GetLike()
     {
         return likes;
     }
@@ -70,7 +71,7 @@ public class GenInfo
     {
         likes = inStr;
     }
-    public static string GetDislike()
+    public string GetDislike()
     {
         return dislikes;
     }
@@ -78,7 +79,7 @@ public class GenInfo
     {
         dislikes = inStr;
     }
-    public static string GetPob()
+    public string GetPob()
     {
         return pob;
     }
@@ -86,7 +87,7 @@ public class GenInfo
     {
         pob = inStr;
     }
-    public static string GetEducation()
+    public string GetEducation()
     {
         return education;
     }
@@ -94,7 +95,7 @@ public class GenInfo
     {
         education = inStr;
     }
-    public static string GetProfession()
+    public string GetProfession()
     {
         return profession;
     }
@@ -102,7 +103,7 @@ public class GenInfo
     {
         profession = inStr;
     }
-    public static int GetMarital()
+    public int GetMarital()
     {
         return maritalStatus;
     }
