@@ -1,7 +1,0 @@
-man
-woman
-trans-man
-trans-woman
-NB
-
-

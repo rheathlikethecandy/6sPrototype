@@ -114,15 +114,15 @@ public class GenInfo
 
     public GenInfo()
     {
-        gender = (RandParseFile("/gentext.txt"));
-        race = (RandParseFile("/racetext.txt"));
+        gender = (RandParseFile("/text/gentext.txt"));
+        race = (RandParseFile("/text/racetext.txt"));
         age = ((int)(Random.Range(2.5f, 8.0f) * 10));
-        personality = (RandParseFile("/pertext.txt"));
-        likes = (RandParseFile("/liketext.txt"));
-        dislikes = (RandParseFile("/distext.txt"));
-        pob = (RandParseFile("/pobtext.txt"));
-        education = (RandParseFile("/edtext.txt"));
-        profession = (RandParseFile("/protext.txt"));
+        personality = (RandParseFile("/text/pertext.txt"));
+        likes = (RandParseFile("/text/liketext.txt"));
+        dislikes = (RandParseFile("/text/distext.txt"));
+        pob = (RandParseFile("/text/pobtext.txt"));
+        education = (RandParseFile("/text/edtext.txt"));
+        profession = (RandParseFile("/text/protext.txt"));
         maritalStatus = (int)(Random.Range(1.0f, 5.99f));
     }
     public string RandParseFile(string filePath)
