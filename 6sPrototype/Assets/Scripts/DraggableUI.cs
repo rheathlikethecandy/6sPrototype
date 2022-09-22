@@ -10,6 +10,8 @@ public class DraggableUI : MonoBehaviour, IDragHandler
     private Vector2 startPosition = new Vector2();
     private Vector2 differencePoint = new Vector2();
 
+    [SerializeField] bool draggable = false;
+
     void Awake()
     {
         startPosition = transform.position;
@@ -17,25 +19,32 @@ public class DraggableUI : MonoBehaviour, IDragHandler
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (draggable)
         {
-            UpdateMousePosition();
-        }
-        else if (gameObject.GetComponent<Stamp>() != null)
-        {
-            if (!gameObject.GetComponent<Stamp>().isActive)
+            if (Input.GetMouseButton(0))
             {
-                ResetPosition();
-                //UpdateStartPosition();
-                //UpdateDifferencePoint();
+                UpdateMousePosition();
+            }
+            else if (gameObject.GetComponent<Stamp>() != null)
+            {
+                if (!gameObject.GetComponent<Stamp>().isActive)
+                {
+                    ResetPosition();
+                    //UpdateStartPosition();
+                    //UpdateDifferencePoint();
+                }
+            }
+            else if (gameObject.GetComponent<Donor>() != null)
+            {
+                if (!gameObject.GetComponent<Donor>().draggedOverFolder || !gameObject.GetComponent<Donor>().isStamped)
+                {
+                    // ResetPosition();
+                }
             }
         }
-        else if (gameObject.GetComponent<Donor>() != null)
+        else
         {
-            if (!gameObject.GetComponent<Donor>().draggedOverFolder || !gameObject.GetComponent<Donor>().isStamped)
-            {
-                ResetPosition();
-            }
+            ResetPosition();
         }
     }
 
@@ -67,5 +76,10 @@ public class DraggableUI : MonoBehaviour, IDragHandler
     public void ResetPosition()
     {
         transform.position = startPosition;
+    }
+
+    public void MakeDraggable()
+    {
+        draggable = true;
     }
 }

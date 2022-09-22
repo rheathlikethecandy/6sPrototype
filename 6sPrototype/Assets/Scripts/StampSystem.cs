@@ -27,7 +27,7 @@ public class StampSystem : MonoBehaviour
     [SerializeField] GameObject informButton;
     [SerializeField] GameObject reInvestButton;
 
-    List<Button> buttons = new List<Button>();
+    public List<Button> buttons = new List<Button>();
 
     [SerializeField] Donor donor;
     [SerializeField] TMP_Text resultText;
@@ -37,11 +37,14 @@ public class StampSystem : MonoBehaviour
     [SerializeField] Sprite emptyFolderImage;
     [SerializeField] Sprite folderImage;
     [SerializeField] GameObject processingFolder;
+    [SerializeField] SpeechBubble speechBubble;
     private int numDonorsComplete = 0;
 
     [SerializeField] GameObject stampedImage;
 
     public int playerPoints = 0;
+
+    public bool interestButtonTutorialDone = false;
 
     // Start is called before the first frame update
     void Start()
@@ -103,7 +106,6 @@ public class StampSystem : MonoBehaviour
                 {
                     processingFolder.GetComponent<Image>().sprite = folderImage;
                 }
-
             }
         }
         else
@@ -117,8 +119,12 @@ public class StampSystem : MonoBehaviour
                 processingFolder.GetComponent<Image>().sprite = folderImage;
             }
         }
+
+     
         points.text = "Points: " + playerPoints.ToString();
         donor.gameObject.SetActive(false);
+
+
     }
     
     void ShowNextButton()
@@ -194,26 +200,49 @@ public class StampSystem : MonoBehaviour
         }
         else if (button == investButton.GetComponentInChildren<Button>())
         {
+            if (!interestButtonTutorialDone)
+            {
+                interestButtonTutorialDone = true;
+                speechBubble.ChangeToText4();
+            }
             currentStamp = StampType.Invest;
         }
         else if (button == informButton.GetComponentInChildren<Button>())
         {
+            if (!interestButtonTutorialDone)
+            {
+                interestButtonTutorialDone = true;
+                speechBubble.ChangeToText4();
+            }
             currentStamp = StampType.Inform;
         }
         else if (button == reInvestButton.GetComponentInChildren<Button>())
         {
+             if (!interestButtonTutorialDone)
+            {
+                interestButtonTutorialDone = true;
+                speechBubble.ChangeToText4();
+            }
             currentStamp = StampType.ReInvest;
         }
         if (button != interestButton.GetComponentInChildren<Button>())
         {
+            Debug.Log("STAMPED");
             donor.isStamped = true;
             stampedImage.gameObject.SetActive(true);
             button.gameObject.GetComponent<DraggableUI>().ResetPosition();
-
+            if (speechBubble.gameObject.activeInHierarchy)
+            {
+                speechBubble.ChangeToText4();
+            }
         }
         else if (button == interestButton.GetComponentInChildren<Button>())
         {
             ShowInterestButtons();
+            if (!interestButtonTutorialDone)
+            {
+                speechBubble.ChangeToText3();
+            }
         }
 
 

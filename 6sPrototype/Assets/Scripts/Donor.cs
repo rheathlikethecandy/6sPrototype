@@ -12,6 +12,7 @@ public class Donor : MonoBehaviour
     [SerializeField] StampSystem stampSystem;
     [SerializeField] GameObject stampImage;
     [SerializeField] GameObject coloredSquare;
+    [SerializeField] GameObject speechBubble;
 
     
     // Start is called before the first frame update
@@ -72,8 +73,11 @@ public class Donor : MonoBehaviour
         {
             draggedOverFolder = true;
             stampSystem.CheckStamp();
+            if (stampSystem.interestButtonTutorialDone)
+            {
+                speechBubble.SetActive(false);
+            }
         }
-
     }
 
     void onTriggerExit2D(Collider2D col)

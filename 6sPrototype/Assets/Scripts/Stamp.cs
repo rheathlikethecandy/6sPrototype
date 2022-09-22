@@ -26,7 +26,6 @@ public class Stamp : MonoBehaviour
     {
         if (col.gameObject.tag == "Donor")
         {
-            Debug.Log("STAMPED");
             gameObject.GetComponent<Button>().interactable = true;
             isActive = true;
         }  
