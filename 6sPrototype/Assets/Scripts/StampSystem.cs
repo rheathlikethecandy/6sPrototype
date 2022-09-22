@@ -34,6 +34,13 @@ public class StampSystem : MonoBehaviour
     [SerializeField] TMP_Text points;
     [SerializeField] Button nextButton;
 
+    [SerializeField] Sprite emptyFolderImage;
+    [SerializeField] Sprite folderImage;
+    [SerializeField] GameObject processingFolder;
+    private int numDonorsComplete = 0;
+
+    [SerializeField] GameObject stampedImage;
+
     public int playerPoints = 0;
 
     // Start is called before the first frame update
@@ -91,6 +98,12 @@ public class StampSystem : MonoBehaviour
                 playerPoints += 200;
                 resultText.text = "Correct!";
                 ShowNextButton();
+                numDonorsComplete++;
+                if (numDonorsComplete == 1)
+                {
+                    processingFolder.GetComponent<Image>().sprite = folderImage;
+                }
+
             }
         }
         else
@@ -98,8 +111,14 @@ public class StampSystem : MonoBehaviour
             playerPoints -= 100;
             resultText.text = "Incorrect :(";
             ShowNextButton();
+            numDonorsComplete++;
+            if (numDonorsComplete == 1)
+            {
+                processingFolder.GetComponent<Image>().sprite = folderImage;
+            }
         }
         points.text = "Points: " + playerPoints.ToString();
+        donor.gameObject.SetActive(false);
     }
     
     void ShowNextButton()
@@ -109,8 +128,11 @@ public class StampSystem : MonoBehaviour
     }
 
     void PressNextButton()
-    { 
+    {
+        donor.gameObject.SetActive(true);
+        donor.gameObject.GetComponent<DraggableUI>().ResetPosition();
         donor.isStamped = false;
+        stampedImage.gameObject.SetActive(false);
         resultText.text = "";
         nextButton.gameObject.SetActive(false);
         donor.SetCorrectStamp();
@@ -185,6 +207,9 @@ public class StampSystem : MonoBehaviour
         if (button != interestButton.GetComponentInChildren<Button>())
         {
             donor.isStamped = true;
+            stampedImage.gameObject.SetActive(true);
+            button.gameObject.GetComponent<DraggableUI>().ResetPosition();
+
         }
         else if (button == interestButton.GetComponentInChildren<Button>())
         {

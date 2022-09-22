@@ -10,6 +10,10 @@ public class Donor : MonoBehaviour
     public bool isStamped = false;
     public bool draggedOverFolder = false;
     [SerializeField] StampSystem stampSystem;
+    [SerializeField] GameObject stampImage;
+    [SerializeField] GameObject coloredSquare;
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -55,7 +59,7 @@ public class Donor : MonoBehaviour
 
 
         int randomColorInt = Random.Range(0, 5);
-        gameObject.GetComponent<Image>().color = colors[randomColorInt];
+        coloredSquare.GetComponent<Image>().color = colors[randomColorInt];
         
     }
 
