@@ -46,6 +46,7 @@ public class StampSystem : MonoBehaviour
         nextButton.GetComponent<Button>().onClick.AddListener(delegate { PressNextButton(); });
 
         ShowInitButtons();
+        ShowInitButtons();
 
     }
 
@@ -81,7 +82,7 @@ public class StampSystem : MonoBehaviour
 
     }
 
-    void CheckStamp()
+    public void CheckStamp()
     {
         if (currentStamp == correctStamp)
         {
@@ -90,12 +91,6 @@ public class StampSystem : MonoBehaviour
                 playerPoints += 200;
                 resultText.text = "Correct!";
                 ShowNextButton();
-            }
-            else
-            {
-                ShowInterestButtons();
-                donor.SetSecondCorrectStamp();
-                correctStamp = donor.correctStamp;
             }
         }
         else
@@ -114,10 +109,11 @@ public class StampSystem : MonoBehaviour
     }
 
     void PressNextButton()
-    {
+    { 
+        donor.isStamped = false;
         resultText.text = "";
         nextButton.gameObject.SetActive(false);
-        donor.SetInitCorrectStamp();
+        donor.SetCorrectStamp();
         ShowInitButtons();
         correctStamp = donor.correctStamp;
         foreach (Button button in buttons)
@@ -186,7 +182,16 @@ public class StampSystem : MonoBehaviour
         {
             currentStamp = StampType.ReInvest;
         }
-        CheckStamp();
+        if (button != interestButton.GetComponentInChildren<Button>())
+        {
+            donor.isStamped = true;
+        }
+        else if (button == interestButton.GetComponentInChildren<Button>())
+        {
+            ShowInterestButtons();
+        }
+
+
     }
 
 }

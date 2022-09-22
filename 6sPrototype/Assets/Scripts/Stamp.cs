@@ -8,6 +8,7 @@ public class Stamp : MonoBehaviour
 
     [SerializeField] StampSystem stampSystem;
     public bool isActive = false;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -23,15 +24,21 @@ public class Stamp : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("STAMPED");
-        gameObject.GetComponent<Button>().interactable = true;
-        isActive = true;
-        
+        if (col.gameObject.tag == "Donor")
+        {
+            Debug.Log("STAMPED");
+            gameObject.GetComponent<Button>().interactable = true;
+            isActive = true;
+        }  
     }
 
     void onTriggerExit2D(Collider2D col)
     {
-        gameObject.GetComponent<Button>().interactable = false;
-        isActive = false;
+        if (col.gameObject.tag == "Donor")
+        {
+            gameObject.GetComponent<Button>().interactable = false;
+            isActive = false;
+        }
+            
     }
 }

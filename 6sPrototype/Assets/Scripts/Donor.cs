@@ -7,6 +7,9 @@ public class Donor : MonoBehaviour
 {
     public StampSystem.StampType correctStamp;
     List<Color> colors = new List<Color>();
+    public bool isStamped = false;
+    public bool draggedOverFolder = false;
+    [SerializeField] StampSystem stampSystem;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +19,7 @@ public class Donor : MonoBehaviour
         colors.Add(Color.green);
         colors.Add(Color.yellow);
 
-        SetInitCorrectStamp();
+        SetCorrectStamp();
 
     }
 
@@ -26,9 +29,9 @@ public class Donor : MonoBehaviour
         
     }
 
-    public void SetInitCorrectStamp()
+    public void SetCorrectStamp()
     {
-        int randomNum = Random.Range(0, 3);
+        int randomNum = Random.Range(0, 5);
         if (randomNum ==  0)
         {
             correctStamp = StampSystem.StampType.Identify;
@@ -39,27 +42,41 @@ public class Donor : MonoBehaviour
         }
         else if (randomNum == 2)
         {
-            correctStamp = StampSystem.StampType.Interest;
+            correctStamp = StampSystem.StampType.Invest;
         }
+        else if (randomNum == 3)
+        {
+            correctStamp = StampSystem.StampType.Inform;
+        }
+        else if (randomNum == 4)
+        {
+            correctStamp = StampSystem.StampType.ReInvest;
+        }
+
+
         int randomColorInt = Random.Range(0, 5);
         gameObject.GetComponent<Image>().color = colors[randomColorInt];
         
     }
 
-    public void SetSecondCorrectStamp()
+  
+
+
+    void OnTriggerEnter2D(Collider2D col)
     {
-        int randomNum = Random.Range(0, 3);
-        if (randomNum == 0)
+        if (col.gameObject.tag == "Processing Folder" && isStamped)
         {
-            correctStamp = StampSystem.StampType.Invest;
+            draggedOverFolder = true;
+            stampSystem.CheckStamp();
         }
-        else if (randomNum == 1)
+
+    }
+
+    void onTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Processing Folder")
         {
-            correctStamp = StampSystem.StampType.Inform;
-        }
-        else if (randomNum == 2)
-        {
-            correctStamp = StampSystem.StampType.ReInvest;
+            draggedOverFolder = false;
         }
     }
 }

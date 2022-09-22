@@ -21,11 +21,21 @@ public class DraggableUI : MonoBehaviour, IDragHandler
         {
             UpdateMousePosition();
         }
-        else if (!gameObject.GetComponent<Stamp>().isActive)
+        else if (gameObject.GetComponent<Stamp>() != null)
         {
-            ResetPosition();
-            //UpdateStartPosition();
-            //UpdateDifferencePoint();
+            if (!gameObject.GetComponent<Stamp>().isActive)
+            {
+                ResetPosition();
+                //UpdateStartPosition();
+                //UpdateDifferencePoint();
+            }
+        }
+        else if (gameObject.GetComponent<Donor>() != null)
+        {
+            if (!gameObject.GetComponent<Donor>().draggedOverFolder || !gameObject.GetComponent<Donor>().isStamped)
+            {
+                ResetPosition();
+            }
         }
     }
 
