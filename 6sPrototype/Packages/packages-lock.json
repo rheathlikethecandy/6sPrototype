@@ -163,11 +163,21 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+<<<<<<< HEAD
     "com.unity.mathematics": {
       "version": "1.2.6",
       "depth": 2,
       "source": "registry",
       "dependencies": {},
+=======
+    "com.unity.inputsystem": {
+      "version": "1.4.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0"
+      },
+>>>>>>> ac2e0747c8732c49636fa8e68b3a73e31ad5e45d
       "url": "https://packages.unity.com"
     },
     "com.unity.nuget.newtonsoft-json": {
