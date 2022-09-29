@@ -30,6 +30,7 @@ public class Stamp : MonoBehaviour
     {
         if (other.gameObject.tag == "Donor")
         {
+            stampSystem.currentDonor = other.gameObject.GetComponent<Donor>();
             gameObject.GetComponent<Button>().interactable = true;
             isActive = true;
         }  

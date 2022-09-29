@@ -36,7 +36,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 if (!gameObject.GetComponent<Donor>().draggedOverFolder && Input.GetMouseButtonUp(0))
                 {
-                    ResetPosition();
+                    //ResetPosition();
                 }
             }
         }
