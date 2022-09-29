@@ -12,9 +12,15 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public bool draggable = false;
     private Vector2 startingPos;
 
+    [SerializeField] StampSystem stampSystem;
+
     void Start()
     {
+        stampSystem = GameObject.FindWithTag("Stamp System").GetComponent<StampSystem>();
         startingPos = transform.position;
+        //stampSystem.ShowInitButtons();
+
+
     }
 
     public void Update()
