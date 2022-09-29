@@ -29,7 +29,11 @@ public class StampSystem : MonoBehaviour
 
     public List<Button> buttons = new List<Button>();
 
-    [SerializeField] Donor donor;
+    [SerializeField] Donor donor1;
+    [SerializeField] Donor donor2;
+    [SerializeField] Donor donor3;
+    [SerializeField] Donor donor4;
+    public Donor currentDonor;
     [SerializeField] TMP_Text resultText;
     [SerializeField] TMP_Text points;
     [SerializeField] Button nextButton;
@@ -40,8 +44,6 @@ public class StampSystem : MonoBehaviour
     [SerializeField] SpeechBubble speechBubble;
     private int numDonorsComplete = 0;
 
-    [SerializeField] GameObject stampedImage;
-
     public int playerPoints = 0;
 
     public bool interestButtonTutorialDone = false;
@@ -51,7 +53,7 @@ public class StampSystem : MonoBehaviour
     {
         PopulateButtonText();
         PopulateButtonClicked();
-        correctStamp = donor.correctStamp;
+        correctStamp = currentDonor.correctStamp;
 
         nextButton.GetComponent<Button>().onClick.AddListener(delegate { PressNextButton(); });
 
@@ -122,7 +124,7 @@ public class StampSystem : MonoBehaviour
 
      
         points.text = "Points: " + playerPoints.ToString();
-        donor.gameObject.SetActive(false);
+        currentDonor.gameObject.SetActive(false);
 
 
     }
@@ -135,16 +137,16 @@ public class StampSystem : MonoBehaviour
 
     void PressNextButton()
     {
-        donor.gameObject.SetActive(true);
-        donor.gameObject.GetComponent<Draggable>().ResetPosition();
-        donor.isStamped = false;
-        stampedImage.gameObject.SetActive(false);
-        donor.gameObject.GetComponent<Draggable>().draggable = false;
+        //currentDonor.gameObject.SetActive(true);
+        //currentDonor.gameObject.GetComponent<Draggable>().ResetPosition();
+        currentDonor.isStamped = false;
+        currentDonor.stampedImage.gameObject.SetActive(false);
+        currentDonor.gameObject.GetComponent<Draggable>().draggable = false;
         resultText.text = "";
         nextButton.gameObject.SetActive(false);
-        donor.SetCorrectStamp();
+        //currentDonor.SetCorrectStamp();
         ShowInitButtons();
-        correctStamp = donor.correctStamp;
+        correctStamp = currentDonor.correctStamp;
         foreach (Button button in buttons)
         {
             button.gameObject.GetComponent<Draggable>().ResetPosition();
@@ -187,6 +189,7 @@ public class StampSystem : MonoBehaviour
 
     public void SetCurrentStamp(Button button)
     {
+        Debug.Log("Setting current stamp");
         if (button == identifyButton.GetComponentInChildren<Button>())
         {
             currentStamp = StampType.Identify;
@@ -229,11 +232,11 @@ public class StampSystem : MonoBehaviour
         if (button != interestButton.GetComponentInChildren<Button>())
         {
             Debug.Log("STAMPED");
-            donor.isStamped = true;
-            stampedImage.gameObject.SetActive(true);
+            currentDonor.isStamped = true;
+            currentDonor.stampedImage.gameObject.SetActive(true);
             button.gameObject.GetComponent<Draggable>().ResetPosition();
-            donor.gameObject.GetComponent<Draggable>().draggable = true;
-            donor.gameObject.GetComponent<Draggable>().ResetPosition();
+            currentDonor.gameObject.GetComponent<Draggable>().draggable = true;
+            //currentDonor.gameObject.GetComponent<Draggable>().ResetPosition();
             if (speechBubble.gameObject.activeInHierarchy)
             {
                 speechBubble.ChangeToText4();

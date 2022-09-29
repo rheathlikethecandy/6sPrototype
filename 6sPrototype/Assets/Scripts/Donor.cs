@@ -14,6 +14,8 @@ public class Donor : MonoBehaviour
     [SerializeField] GameObject stampImage;
     [SerializeField] GameObject coloredSquare;
     [SerializeField] GameObject speechBubble;
+
+    public GameObject stampedImage;
     //holds generated info to be displayed
     private GenInfo info;
 
@@ -27,8 +29,7 @@ public class Donor : MonoBehaviour
         colors.Add(Color.green);
         colors.Add(Color.yellow);
 
-        SetCorrectStamp(info);
-
+        SetCorrectStamp();
     }
 
     // Update is called once per frame
