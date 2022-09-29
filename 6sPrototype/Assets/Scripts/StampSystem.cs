@@ -43,10 +43,18 @@ public class StampSystem : MonoBehaviour
     [SerializeField] GameObject processingFolder;
     [SerializeField] SpeechBubble speechBubble;
     private int numDonorsComplete = 0;
+    public int numDonorsCorrect = 0;
 
     public int playerPoints = 0;
 
     public bool interestButtonTutorialDone = false;
+
+
+    public Dictionary<int,Dictionary<StampType, StampType>> finishedProfiles = new Dictionary<int, Dictionary<StampType, StampType>>();
+
+    [SerializeField] Timer timer;
+    [SerializeField] GameObject stampingScreen;
+    [SerializeField] GameObject roundReviewScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -58,14 +66,17 @@ public class StampSystem : MonoBehaviour
         nextButton.GetComponent<Button>().onClick.AddListener(delegate { PressNextButton(); });
 
         ShowInitButtons();
-        ShowInitButtons();
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-     
+        if (timer.min == -1 || numDonorsComplete==4)
+        {
+            RoundOver();
+        }
     }
 
     void PopulateButtonClicked()
@@ -91,7 +102,6 @@ public class StampSystem : MonoBehaviour
         buttons.Add(investButton.GetComponentInChildren<Button>());
         buttons.Add(informButton.GetComponentInChildren<Button>());
         buttons.Add(reInvestButton.GetComponentInChildren<Button>());
-
     }
 
     public void CheckStamp()
@@ -101,8 +111,12 @@ public class StampSystem : MonoBehaviour
             if (currentStamp != StampType.Interest)
             {
                 playerPoints += 200;
-                resultText.text = "Correct!";
-                ShowNextButton();
+                //resultText.text = "Correct!";
+                Dictionary<StampType, StampType> stampPair = new Dictionary<StampType, StampType>();
+                stampPair.Add(correctStamp, currentStamp);
+                finishedProfiles.Add(numDonorsComplete, stampPair);
+                numDonorsCorrect++;
+                PressNextButton();
                 numDonorsComplete++;
                 if (numDonorsComplete == 1)
                 {
@@ -113,20 +127,19 @@ public class StampSystem : MonoBehaviour
         else
         {
             playerPoints -= 100;
-            resultText.text = "Incorrect :(";
-            ShowNextButton();
+            //resultText.text = "Incorrect :(";
+            Dictionary<StampType, StampType> stampPair = new Dictionary<StampType, StampType>();
+            stampPair.Add(correctStamp, currentStamp);
+            finishedProfiles.Add(numDonorsComplete, stampPair);
+            PressNextButton();
             numDonorsComplete++;
             if (numDonorsComplete == 1)
             {
                 processingFolder.GetComponent<Image>().sprite = folderImage;
             }
         }
-
-     
-        points.text = "Points: " + playerPoints.ToString();
+        //points.text = "Points: " + playerPoints.ToString();
         currentDonor.gameObject.SetActive(false);
-
-
     }
     
     void ShowNextButton()
@@ -165,7 +178,7 @@ public class StampSystem : MonoBehaviour
         reInvestButton.gameObject.SetActive(true);
     }
 
-    void ShowInitButtons()
+    public void ShowInitButtons()
     {
         investButton.gameObject.SetActive(false);
         informButton.gameObject.SetActive(false);
@@ -189,7 +202,6 @@ public class StampSystem : MonoBehaviour
 
     public void SetCurrentStamp(Button button)
     {
-        Debug.Log("Setting current stamp");
         if (button == identifyButton.GetComponentInChildren<Button>())
         {
             currentStamp = StampType.Identify;
@@ -231,7 +243,6 @@ public class StampSystem : MonoBehaviour
         }
         if (button != interestButton.GetComponentInChildren<Button>())
         {
-            Debug.Log("STAMPED");
             currentDonor.isStamped = true;
             currentDonor.stampedImage.gameObject.SetActive(true);
             button.gameObject.GetComponent<Draggable>().ResetPosition();
@@ -250,8 +261,12 @@ public class StampSystem : MonoBehaviour
                 speechBubble.ChangeToText3();
             }
         }
+    }
 
-
+    void RoundOver()
+    {
+        stampingScreen.gameObject.SetActive(false);
+        roundReviewScreen.gameObject.SetActive(true);
     }
 
 }

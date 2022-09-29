@@ -11,7 +11,7 @@ public class SpeechBubble : MonoBehaviour
     [SerializeField] StampSystem stampSystem;
     private string text2 = "After reading the info about the donor, choose which stamp you believe applies to the donor and drag it over to the donor.";
     private string text3 = "If you choose the 'Interest' stamp, you will then have to stamp again with a more specific label.";
-    private string text4 = "After a donor is stamped, drag it into the processing folder. Then you will be able to see if your stamp was correct or not.";
+    private string text4 = "After a donor is stamped, drag it into the processing folder. Then drag out the next profile from the stack on the right.";
 
     public bool doneWithTutorial = false;
     // Start is called before the first frame update
