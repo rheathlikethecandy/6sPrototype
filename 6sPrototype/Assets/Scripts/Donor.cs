@@ -67,9 +67,9 @@ public class Donor : MonoBehaviour
   
 
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (col.gameObject.tag == "Processing Folder" && isStamped)
+        if (other.gameObject.tag == "Processing Folder" && isStamped)
         {
             draggedOverFolder = true;
             stampSystem.CheckStamp();
@@ -80,9 +80,9 @@ public class Donor : MonoBehaviour
         }
     }
 
-    void onTriggerExit2D(Collider2D col)
+    public void OnTriggerExit2D(Collider2D other)
     {
-        if (col.gameObject.tag == "Processing Folder")
+        if (other.gameObject.tag == "Processing Folder")
         {
             draggedOverFolder = false;
         }

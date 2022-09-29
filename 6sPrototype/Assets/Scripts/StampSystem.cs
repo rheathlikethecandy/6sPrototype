@@ -136,9 +136,10 @@ public class StampSystem : MonoBehaviour
     void PressNextButton()
     {
         donor.gameObject.SetActive(true);
-        donor.gameObject.GetComponent<DraggableUI>().ResetPosition();
+        donor.gameObject.GetComponent<Draggable>().ResetPosition();
         donor.isStamped = false;
         stampedImage.gameObject.SetActive(false);
+        donor.gameObject.GetComponent<Draggable>().draggable = false;
         resultText.text = "";
         nextButton.gameObject.SetActive(false);
         donor.SetCorrectStamp();
@@ -146,7 +147,7 @@ public class StampSystem : MonoBehaviour
         correctStamp = donor.correctStamp;
         foreach (Button button in buttons)
         {
-            button.gameObject.GetComponent<DraggableUI>().ResetPosition();
+            button.gameObject.GetComponent<Draggable>().ResetPosition();
             button.interactable = false;
         }
     }
@@ -184,7 +185,7 @@ public class StampSystem : MonoBehaviour
         reInvestButton.gameObject.SetActive(false);
     }
 
-    void SetCurrentStamp(Button button)
+    public void SetCurrentStamp(Button button)
     {
         if (button == identifyButton.GetComponentInChildren<Button>())
         {
@@ -230,7 +231,9 @@ public class StampSystem : MonoBehaviour
             Debug.Log("STAMPED");
             donor.isStamped = true;
             stampedImage.gameObject.SetActive(true);
-            button.gameObject.GetComponent<DraggableUI>().ResetPosition();
+            button.gameObject.GetComponent<Draggable>().ResetPosition();
+            donor.gameObject.GetComponent<Draggable>().draggable = true;
+            donor.gameObject.GetComponent<Draggable>().ResetPosition();
             if (speechBubble.gameObject.activeInHierarchy)
             {
                 speechBubble.ChangeToText4();

@@ -33,7 +33,7 @@ public class SpeechBubble : MonoBehaviour
         nextButton.GetComponent<Button>().onClick.AddListener(delegate { ChangeToText4(); });
         foreach (Button button in stampSystem.buttons)
         {
-            button.gameObject.GetComponent<DraggableUI>().MakeDraggable();
+            button.gameObject.GetComponent<Draggable>().draggable = true;
         }
         nextButton.gameObject.SetActive(false);
 

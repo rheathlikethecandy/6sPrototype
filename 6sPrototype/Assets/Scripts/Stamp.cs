@@ -19,25 +19,28 @@ public class Stamp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonUp(0) && isActive)
+        {
+            stampSystem.SetCurrentStamp(gameObject.GetComponent<Button>());
+            isActive = false;
+        }
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (col.gameObject.tag == "Donor")
+        if (other.gameObject.tag == "Donor")
         {
             gameObject.GetComponent<Button>().interactable = true;
             isActive = true;
         }  
     }
 
-    void onTriggerExit2D(Collider2D col)
+    public void OnTriggerExit2D(Collider2D other)
     {
-        if (col.gameObject.tag == "Donor")
+        if (other.gameObject.tag == "Donor")
         {
             gameObject.GetComponent<Button>().interactable = false;
             isActive = false;
-        }
-            
+        } 
     }
 }
