@@ -10,7 +10,7 @@ public class DraggableUI : MonoBehaviour, IDragHandler
     private Vector2 startPosition = new Vector2();
     private Vector2 differencePoint = new Vector2();
 
-    [SerializeField] bool draggable = false;
+    public bool draggable = false;
 
     void Awake()
     {
