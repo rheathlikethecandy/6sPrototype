@@ -33,6 +33,7 @@ public class StampSystem : MonoBehaviour
     [SerializeField] Donor donor2;
     [SerializeField] Donor donor3;
     [SerializeField] Donor donor4;
+    private List<Donor> allDonors = new List<Donor>();
     public Donor currentDonor;
     [SerializeField] TMP_Text resultText;
     [SerializeField] TMP_Text points;
@@ -48,6 +49,8 @@ public class StampSystem : MonoBehaviour
     public int playerPoints = 0;
 
     public bool interestButtonTutorialDone = false;
+
+    private bool reviewScreen = false;
 
 
     public Dictionary<int,Dictionary<StampType, StampType>> finishedProfiles = new Dictionary<int, Dictionary<StampType, StampType>>();
@@ -67,6 +70,11 @@ public class StampSystem : MonoBehaviour
 
         ShowInitButtons();
 
+        allDonors.Add(donor1);
+        allDonors.Add(donor2);
+        allDonors.Add(donor3);  
+        allDonors.Add(donor4);
+
 
     }
 
@@ -75,7 +83,13 @@ public class StampSystem : MonoBehaviour
     {
         if (timer.min == -1 || numDonorsComplete==4)
         {
-            RoundOver();
+            if(!reviewScreen)
+            {
+                RoundOver();
+                reviewScreen = true;
+            }
+            
+            
         }
     }
 
@@ -106,6 +120,8 @@ public class StampSystem : MonoBehaviour
 
     public void CheckStamp()
     {
+        correctStamp = currentDonor.correctStamp;
+
         if (currentStamp == correctStamp)
         {
             if (currentStamp != StampType.Interest)
@@ -176,6 +192,11 @@ public class StampSystem : MonoBehaviour
         investButton.gameObject.SetActive(true);
         informButton.gameObject.SetActive(true);
         reInvestButton.gameObject.SetActive(true);
+
+        investButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        informButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+
     }
 
     public void ShowInitButtons()
@@ -265,8 +286,32 @@ public class StampSystem : MonoBehaviour
 
     void RoundOver()
     {
-        stampingScreen.gameObject.SetActive(false);
         roundReviewScreen.gameObject.SetActive(true);
+        roundReviewScreen.GetComponent<RoundReview>().SetText();
+        stampingScreen.gameObject.SetActive(false);
+    }
+
+    public void NextRound()
+    {
+        stampingScreen.gameObject.SetActive(true);
+        roundReviewScreen.gameObject.SetActive(false);
+        numDonorsComplete = 0;
+        numDonorsCorrect = 0;
+        ShowInitButtons();
+        foreach (Donor donor in allDonors)
+        {
+            donor.gameObject.SetActive(true);
+            donor.ResetPos();
+            donor.SetCorrectStamp();
+            donor.gameObject.GetComponent<Draggable>().draggable = true;
+            donor.gameObject.GetComponent<Draggable>().dragging = false;
+        }
+        processingFolder.GetComponent<Image>().sprite = emptyFolderImage;
+        finishedProfiles.Clear();
+        timer.min = 5;
+        timer.sec = 0f;
+        points.text = "Points: " + playerPoints.ToString();
+        reviewScreen = false;
     }
 
 }

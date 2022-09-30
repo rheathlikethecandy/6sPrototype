@@ -15,18 +15,23 @@ public class RoundReview : MonoBehaviour
     [SerializeField] TMP_Text donor3Text;
     [SerializeField] TMP_Text donor4Text;
     [SerializeField] TMP_Text totalPoints;
-    List<TMP_Text> donorTexts = new List<TMP_Text>();
+    public List<TMP_Text> donorTexts = new List<TMP_Text>();
 
     [SerializeField] StampSystem stampSystem;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         donorTexts.Add(donor1Text);
         donorTexts.Add(donor2Text);
         donorTexts.Add(donor3Text);
         donorTexts.Add(donor4Text);
 
+       
+    }
+
+    public void SetText()
+    {
         roundCompleteText.text = "Round " + roundNum + " Complete!";
         if (stampSystem.numDonorsCorrect != 1)
         {
@@ -35,10 +40,8 @@ public class RoundReview : MonoBehaviour
         else
         {
             numCorrectText.text = "You got " + stampSystem.numDonorsCorrect + " profile correct.";
-
         }
         totalPoints.text = "TOTAL POINTS: " + stampSystem.playerPoints;
-
         foreach (KeyValuePair<int, Dictionary<StampSystem.StampType, StampSystem.StampType>> finishedProfiles in stampSystem.finishedProfiles)
         {
             Dictionary<StampSystem.StampType, StampSystem.StampType> stampPairs = finishedProfiles.Value;
@@ -55,6 +58,6 @@ public class RoundReview : MonoBehaviour
                 }
             }
         }
+        roundNum += 1;
     }
-
 }

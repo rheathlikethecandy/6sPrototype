@@ -19,10 +19,13 @@ public class Donor : MonoBehaviour
     //holds generated info to be displayed
     private GenInfo info;
 
+    private Vector2 initPos;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        initPos = transform.position;
         colors.Add(Color.blue);
         colors.Add(Color.red);
         colors.Add(Color.black);
@@ -131,6 +134,11 @@ public class Donor : MonoBehaviour
         {
             draggedOverFolder = false;
         }
+    }
+
+    public void ResetPos()
+    {
+        transform.position = initPos;
     }
 }
 
