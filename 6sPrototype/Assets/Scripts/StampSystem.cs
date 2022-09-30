@@ -35,7 +35,6 @@ public class StampSystem : MonoBehaviour
     [SerializeField] Donor donor4;
     private List<Donor> allDonors = new List<Donor>();
     public Donor currentDonor;
-    [SerializeField] TMP_Text resultText;
     [SerializeField] TMP_Text points;
     [SerializeField] Button nextButton;
 
@@ -127,7 +126,6 @@ public class StampSystem : MonoBehaviour
             if (currentStamp != StampType.Interest)
             {
                 playerPoints += 200;
-                //resultText.text = "Correct!";
                 Dictionary<StampType, StampType> stampPair = new Dictionary<StampType, StampType>();
                 stampPair.Add(correctStamp, currentStamp);
                 finishedProfiles.Add(numDonorsComplete, stampPair);
@@ -143,7 +141,6 @@ public class StampSystem : MonoBehaviour
         else
         {
             playerPoints -= 100;
-            //resultText.text = "Incorrect :(";
             Dictionary<StampType, StampType> stampPair = new Dictionary<StampType, StampType>();
             stampPair.Add(correctStamp, currentStamp);
             finishedProfiles.Add(numDonorsComplete, stampPair);
@@ -171,7 +168,6 @@ public class StampSystem : MonoBehaviour
         currentDonor.isStamped = false;
         currentDonor.stampedImage.gameObject.SetActive(false);
         currentDonor.gameObject.GetComponent<Draggable>().draggable = false;
-        resultText.text = "";
         nextButton.gameObject.SetActive(false);
         //currentDonor.SetCorrectStamp();
         ShowInitButtons();
