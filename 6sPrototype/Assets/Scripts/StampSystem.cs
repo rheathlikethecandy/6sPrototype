@@ -58,6 +58,8 @@ public class StampSystem : MonoBehaviour
     [SerializeField] GameObject stampingScreen;
     [SerializeField] GameObject roundReviewScreen;
 
+    [SerializeField] SkillTree skillTree;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -126,6 +128,7 @@ public class StampSystem : MonoBehaviour
             if (currentStamp != StampType.Interest)
             {
                 playerPoints += 200;
+                skillTree.skillPoints += 1;
                 Dictionary<StampType, StampType> stampPair = new Dictionary<StampType, StampType>();
                 stampPair.Add(correctStamp, currentStamp);
                 finishedProfiles.Add(numDonorsComplete, stampPair);
@@ -290,7 +293,6 @@ public class StampSystem : MonoBehaviour
     public void NextRound()
     {
         stampingScreen.gameObject.SetActive(true);
-        roundReviewScreen.gameObject.SetActive(false);
         numDonorsComplete = 0;
         numDonorsCorrect = 0;
         ShowInitButtons();
