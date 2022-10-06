@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using TMPro;
 
 public class Donor : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Donor : MonoBehaviour
     [SerializeField] GameObject stampImage;
     [SerializeField] GameObject coloredSquare;
     [SerializeField] GameObject speechBubble;
+    [SerializeField] GameObject text;
+    [SerializeField] InfoDumper dumper;
 
     public GameObject stampedImage;
     //holds generated info to be displayed
@@ -32,8 +35,9 @@ public class Donor : MonoBehaviour
         colors.Add(Color.black);
         colors.Add(Color.green);
         colors.Add(Color.yellow);
-
-        SetCorrectStamp();
+        info = new GenInfo();
+        dumper.SetText(info);
+        SetCorrectStamp(info);
     }
 
     // Update is called once per frame
@@ -167,7 +171,7 @@ public class GenInfo
     private string pob;
     private string education;
     private string profession;
-    private int maritalStatus;
+    private string maritalStatus;
     private int interest;
     private string history;
     public string GetGender()
@@ -250,13 +254,13 @@ public class GenInfo
     {
         profession = inStr;
     }
-    public int GetMarital()
+    public string GetMarital()
     {
         return maritalStatus;
     }
     public void SetMarital(string inStr)
     {
-        maritalStatus = int.Parse("inInt");
+        maritalStatus = inStr;
     }
 
     public int GetInterest()
@@ -279,8 +283,8 @@ public class GenInfo
 
     public GenInfo()
     {
-        gender = (RandParseFile("/text/gentext.txt"));
-        race = (RandParseFile("/text/racetext.txt"));
+        gender = (RandParseFile("Assets/text/gentext.txt"));
+        race = (RandParseFile("Assets/text/racetext.txt"));
         int fiftyFifty = (int)Random.Range(0, 2);
         if (fiftyFifty < 1)
         {
@@ -290,21 +294,42 @@ public class GenInfo
         {
             age = ((int)(Random.Range(2.5f, 8.0f) * 10));
         }
-        clothing = (RandParseFile("/text/clothtext.txt"));
-        personality = (RandParseFile("/text/pertext.txt"));
-        likes = (RandParseFile("/text/liketext.txt"));
-        dislikes = (RandParseFile("/text/distext.txt"));
-        pob = (RandParseFile("/text/pobtext.txt"));
-        education = (RandParseFile("/text/edtext.txt"));
-        profession = (RandParseFile("/text/protext.txt"));
-        history = (RandParseFile("/text/histext.txt"));
-        maritalStatus = (int)(Random.Range(0.0f, 5.99f));
+        clothing = (RandParseFile("Assets/text/clothtext.txt"));
+        personality = (RandParseFile("Assets/text/pertext.txt"));
+        likes = (RandParseFile("Assets/text/liketext.txt"));
+        dislikes = (RandParseFile("Assets/text/distext.txt"));
+        pob = (RandParseFile("Assets/text/pobtext.txt"));
+        education = (RandParseFile("Assets/text/edtext.txt"));
+        profession = (RandParseFile("Assets/text/protext.txt"));
+        history = (RandParseFile("Assets/text/histext.txt")); 
+        int maritalStatusInt = (int)(Random.Range(0.0f, 10.0f));
+        if (maritalStatusInt < 3)
+        {
+            maritalStatus = "Married";
+        }
+        else if (maritalStatusInt < 4)
+        {
+            maritalStatus = "Widowed";
+        }
+        else if (maritalStatusInt < 5)
+        {
+            maritalStatus = "Separated";
+        }
+        else if (maritalStatusInt < 7)
+        {
+            maritalStatus = "Divorced";
+        }
+        else
+        {
+            maritalStatus = "Single";
+        }
+        //Also need to see how this will be calculated, unsure at the moment
         interest = (int)(Random.Range(0.0f, 5.99f));
     }
     public string RandParseFile(string filePath)
     {
-        string path = Application.persistentDataPath + filePath;
-        StreamReader reader = new StreamReader(path);
+        //string path = Application.persistentDataPath + filePath;
+        StreamReader reader = new StreamReader(filePath);
         string text = "";
         int rand = (int)(Random.Range(0.0f, 1.0f) * 10f);
         for (int i = 0; i < rand; i++)

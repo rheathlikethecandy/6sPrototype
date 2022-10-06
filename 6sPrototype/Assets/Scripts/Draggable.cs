@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public bool dragging;
     private Vector2 offset;
 
     public bool draggable = false;
     private Vector2 startingPos;
+
+    [SerializeField] GameObject infoDisplay;
+    [SerializeField] GameObject back;
 
     [SerializeField] StampSystem stampSystem;
 
@@ -79,5 +82,27 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void ResetPosition()
     {
         transform.position = startingPos;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        EnableInfo();
+        Debug.Log("Mouse Over");
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        DisableInfo();
+    }
+
+    public void EnableInfo()
+    {
+        infoDisplay.SetActive(true);
+        back.SetActive(true);
+    }
+
+    public void DisableInfo()
+    {
+        infoDisplay.SetActive(false);
+        back.SetActive(false);
     }
 }
