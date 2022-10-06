@@ -42,6 +42,19 @@ public class SkillTree : MonoBehaviour
     [SerializeField] TMP_Text cantBuyText;
 
     [SerializeField] StampSystem stampSystem;
+
+    [SerializeField] Sprite deskGreen;
+    [SerializeField] Sprite tapeGreen;
+    [SerializeField] Sprite noFanGreen;
+    [SerializeField] Sprite smallStampGreen;
+    [SerializeField] Sprite multiStampGreen;
+    [SerializeField] Sprite highlighterGreen;
+    [SerializeField] Sprite compressGreen;
+    [SerializeField] Sprite staplerGreen;
+
+    public Skill[] skillImages = new Skill[8];
+
+
     // Start is called before the first frame update
 
     void Awake()
@@ -117,17 +130,55 @@ public class SkillTree : MonoBehaviour
 
     public void BuyASkill(SkillType skill)
     {
-
         cantBuyText.transform.parent.gameObject.SetActive(true);
         StartCoroutine(HideCantBuyText());
         if (CanBuySkill(skill))
         {
+            cantBuyText.text = "Skill acquired!";
             playerSkills.Add(skill);
             skillPoints -= skillCosts[skill];
             skillFunctions[skill]();
             UnlockNewSkills(skill);
             UpdatePointsText();
-            cantBuyText.text = "Skill acquired!";
+            skillImages = FindObjectsOfType<Skill>();
+            foreach (Skill skillImage in skillImages)
+            {
+                if (skillImage.skillType == skill)
+                {
+                    if (skill == SkillType.BiggerDesk)
+                    {
+                        skillImage.gameObject.GetComponent<Image>().sprite = deskGreen;
+                    }
+                    else if (skill == SkillType.Tape)
+                    {
+                        skillImage.gameObject.GetComponent<Image>().sprite = tapeGreen;
+                    }
+                    else if (skill == SkillType.NoFan)
+                    {
+                        skillImage.gameObject.GetComponent<Image>().sprite = noFanGreen;
+                    }
+                    else if (skill == SkillType.SmallerStamp)
+                    {
+                        skillImage.gameObject.GetComponent<Image>().sprite = smallStampGreen;
+                    }
+                    else if (skill == SkillType.MultiStamp)
+                    {
+                        skillImage.gameObject.GetComponent<Image>().sprite = multiStampGreen;
+                    }
+                    else if (skill == SkillType.Highlighter)
+                    { 
+                        skillImage.gameObject.GetComponent<Image>().sprite = highlighterGreen;
+                    }
+                    else if (skill == SkillType.Compress)
+                    {
+                        skillImage.gameObject.GetComponent<Image>().sprite = compressGreen;
+                    }
+                    else if (skill == SkillType.Stapler)
+                    {
+                        skillImage.gameObject.GetComponent<Image>().sprite = staplerGreen;
+                    }
+                }
+            }
 
         }
         else
@@ -162,20 +213,70 @@ public class SkillTree : MonoBehaviour
 
     void UnlockNewSkills(SkillType skill)
     {
+        skillImages = FindObjectsOfType<Skill>();
         if (skill == SkillType.BiggerDesk)
         {
             unlockedSkills.Add(SkillType.Tape);
             unlockedSkills.Add(SkillType.NoFan);
             unlockedSkills.Add(SkillType.SmallerStamp);
-        }
-        else if (skill == SkillType.Tape || skill == SkillType.NoFan || skill == SkillType.SmallerStamp)
-        {
-            if(unlockedSkills.Contains(SkillType.MultiStamp))
+            foreach (Skill skillImage in skillImages)
             {
-                unlockedSkills.Add(SkillType.MultiStamp);
+                if (skillImage.skillType == SkillType.Tape || skillImage.skillType == SkillType.NoFan || skillImage.skillType == SkillType.SmallerStamp)
+                {
+                    Image image = skillImage.gameObject.GetComponent<Image>();
+                    image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+                }
+            }
+        }
+        else if (skill == SkillType.Tape)
+        {
+            unlockedSkills.Add(SkillType.MultiStamp);
+            if (!unlockedSkills.Contains(SkillType.Highlighter))
+            {
                 unlockedSkills.Add(SkillType.Highlighter);
+            }
+            foreach (Skill skillImage in skillImages)
+            {
+                if (skillImage.skillType == SkillType.MultiStamp || skillImage.skillType == SkillType.Highlighter)
+                {
+                    Image image = skillImage.gameObject.GetComponent<Image>();
+                    image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+                }
+            }
+        }
+        else if (skill == SkillType.NoFan)
+        {
+            if (!unlockedSkills.Contains(SkillType.Highlighter))
+            {
+                unlockedSkills.Add(SkillType.Highlighter);
+            }
+            if (!unlockedSkills.Contains(SkillType.Compress))
+            {
                 unlockedSkills.Add(SkillType.Compress);
-                unlockedSkills.Add(SkillType.Stapler);
+            }
+            foreach (Skill skillImage in skillImages)
+            {
+                if (skillImage.skillType == SkillType.Highlighter || skillImage.skillType == SkillType.Compress)
+                {
+                    Image image = skillImage.gameObject.GetComponent<Image>();
+                    image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+                }
+            }
+        }
+        else if (skill == SkillType.SmallerStamp)
+        {
+            if (!unlockedSkills.Contains(SkillType.Compress))
+            {
+                unlockedSkills.Add(SkillType.Compress);
+            }
+            unlockedSkills.Add(SkillType.Stapler);
+            foreach (Skill skillImage in skillImages)
+            {
+                if (skillImage.skillType == SkillType.Compress || skillImage.skillType == SkillType.Stapler)
+                {
+                    Image image = skillImage.gameObject.GetComponent<Image>();
+                    image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+                }
             }
         }
     }
