@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.EventSystems;
 
 public class SkillTree : MonoBehaviour
 {
 
-    public enum Skill
+    public enum SkillType
     {
         BiggerDesk,
         Tape,
@@ -17,49 +20,85 @@ public class SkillTree : MonoBehaviour
         Stapler
     }
 
-    public Dictionary<Skill, int> skillCosts = new Dictionary<Skill, int>();
-    public Dictionary<Skill, System.Action> skillFunctions = new Dictionary<Skill, System.Action>();
-    public List<Skill> unlockedSkills = new List<Skill>();
-    List<Skill> playerSkills = new List<Skill>();
+    public Dictionary<SkillType, int> skillCosts = new Dictionary<SkillType, int>();
+    public Dictionary<SkillType, System.Action> skillFunctions = new Dictionary<SkillType, System.Action>();
+    public Dictionary<SkillType, GameObject> skillTexts = new Dictionary<SkillType, GameObject>();
+    public List<SkillType> unlockedSkills = new List<SkillType>();
+    List<SkillType> playerSkills = new List<SkillType>();
     public int skillPoints = 0;
+
+    [SerializeField] GameObject deskText;
+    [SerializeField] GameObject tapeText;
+    [SerializeField] GameObject noFanText;
+    [SerializeField] GameObject smallerStampText;
+    [SerializeField] GameObject multiStampText;
+    [SerializeField] GameObject highlighterText;
+    [SerializeField] GameObject compressText;
+    [SerializeField] GameObject staplerText;
+
+    public TMP_Text skillPointsText;
 
     // Start is called before the first frame update
     void Start()
     {
-        skillCosts.Add(Skill.BiggerDesk, 2);
-        skillFunctions.Add(Skill.BiggerDesk, BiggerDeskFunction);
+        skillCosts.Add(SkillType.BiggerDesk, 2);
+        skillFunctions.Add(SkillType.BiggerDesk, BiggerDeskFunction);
+        skillTexts.Add(SkillType.BiggerDesk, deskText);
 
-        skillCosts.Add(Skill.Tape, 3);
-        skillFunctions.Add(Skill.Tape, TapeFunction);
+        skillCosts.Add(SkillType.Tape, 3);
+        skillFunctions.Add(SkillType.Tape, TapeFunction);
+        skillTexts.Add(SkillType.Tape, tapeText);
 
-        skillCosts.Add(Skill.NoFan, 3);
-        skillFunctions.Add(Skill.NoFan, NoFanFunction);
 
-        skillCosts.Add(Skill.SmallerStamp, 3);
-        skillFunctions.Add(Skill.SmallerStamp, SmallerStampFunction);
+        skillCosts.Add(SkillType.NoFan, 3);
+        skillFunctions.Add(SkillType.NoFan, NoFanFunction);
+        skillTexts.Add(SkillType.NoFan, noFanText);
 
-        skillCosts.Add(Skill.MultiStamp, 4);
-        skillFunctions.Add(Skill.MultiStamp, MultiStampFunction);
+        skillCosts.Add(SkillType.SmallerStamp, 3);
+        skillFunctions.Add(SkillType.SmallerStamp, SmallerStampFunction);
+        skillTexts.Add (SkillType.SmallerStamp, smallerStampText);
 
-        skillCosts.Add(Skill.Highlighter, 4);
-        skillFunctions.Add(Skill.Highlighter, HighlighterFunction);
+        skillCosts.Add(SkillType.MultiStamp, 4);
+        skillFunctions.Add(SkillType.MultiStamp, MultiStampFunction);
+        skillTexts.Add(SkillType.MultiStamp, multiStampText);
 
-        skillCosts.Add(Skill.Compress, 4);
-        skillFunctions.Add(Skill.Compress, CompressFunction);
+        skillCosts.Add(SkillType.Highlighter, 4);
+        skillFunctions.Add(SkillType.Highlighter, HighlighterFunction);
+        skillTexts.Add(SkillType.Highlighter, highlighterText);
 
-        skillCosts.Add(Skill.Stapler, 4);
-        skillFunctions.Add(Skill.Stapler, StaplerFunction);
+        skillCosts.Add(SkillType.Compress, 4);
+        skillFunctions.Add(SkillType.Compress, CompressFunction);
+        skillTexts.Add(SkillType.Compress, compressText);
 
-        unlockedSkills.Add(Skill.BiggerDesk);
+        skillCosts.Add(SkillType.Stapler, 4);
+        skillFunctions.Add(SkillType.Stapler, StaplerFunction);
+        skillTexts.Add(SkillType.Stapler, staplerText); 
+
+        unlockedSkills.Add(SkillType.BiggerDesk);
     }
-
+   
     // Update is called once per frame
     void Update()
     {
         
     }
 
-    void BuyASkill(Skill skill)
+    public void ShowText(SkillType skill)
+    {
+        skillTexts[skill].SetActive(true);
+    }
+
+    public void HideText(SkillType skill)
+    {
+        skillTexts[skill].SetActive(false);
+    }
+
+    public void UpdatePointsText()
+    {
+        skillPointsText.text = "Skill Points: " + skillPoints.ToString();
+    }
+
+    void BuyASkill(SkillType skill)
     {
         if (CanBuySkill(skill))
         {
@@ -75,9 +114,9 @@ public class SkillTree : MonoBehaviour
 
     }
 
-    bool CanBuySkill(Skill skill)
+    bool CanBuySkill(SkillType skill)
     {
-        if (skillPoints >= skillCosts[skill] && unlockedSkills.Contains(skill))
+        if (skillPoints >= skillCosts[skill] && unlockedSkills.Contains(skill) && !playerSkills.Contains(skill))
         {
             return true;
         }
@@ -87,20 +126,20 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    void UnlockNewSkills(Skill skill)
+    void UnlockNewSkills(SkillType skill)
     {
-        if (skill == Skill.BiggerDesk)
+        if (skill == SkillType.BiggerDesk)
         {
-            unlockedSkills.Add(Skill.Tape);
-            unlockedSkills.Add(Skill.NoFan);
-            unlockedSkills.Add(Skill.SmallerStamp);
+            unlockedSkills.Add(SkillType.Tape);
+            unlockedSkills.Add(SkillType.NoFan);
+            unlockedSkills.Add(SkillType.SmallerStamp);
         }
-        else if (skill == Skill.Tape || skill == Skill.NoFan || skill == Skill.SmallerStamp)
+        else if (skill == SkillType.Tape || skill == SkillType.NoFan || skill == SkillType.SmallerStamp)
         {
-            unlockedSkills.Add(Skill.MultiStamp);
-            unlockedSkills.Add(Skill.Highlighter);
-            unlockedSkills.Add(Skill.Compress);
-            unlockedSkills.Add(Skill.Stapler);
+            unlockedSkills.Add(SkillType.MultiStamp);
+            unlockedSkills.Add(SkillType.Highlighter);
+            unlockedSkills.Add(SkillType.Compress);
+            unlockedSkills.Add(SkillType.Stapler);
         }
     }
 
