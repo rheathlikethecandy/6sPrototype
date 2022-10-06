@@ -87,7 +87,6 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
     public void OnPointerEnter(PointerEventData eventData)
     {
         EnableInfo();
-        Debug.Log("Mouse Over");
     }
     public void OnPointerExit(PointerEventData eventData)
     {
@@ -96,13 +95,21 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 
     public void EnableInfo()
     {
-        infoDisplay.SetActive(true);
-        back.SetActive(true);
+        if(infoDisplay != null)
+        {
+            infoDisplay.SetActive(true);
+            back.SetActive(true);
+        }
     }
+      
 
     public void DisableInfo()
     {
-        infoDisplay.SetActive(false);
-        back.SetActive(false);
+        if (infoDisplay != null)
+        {
+            infoDisplay.SetActive(false);
+            back.SetActive(false);
+        }
+        
     }
 }
