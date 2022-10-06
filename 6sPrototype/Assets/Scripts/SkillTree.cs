@@ -42,7 +42,7 @@ public class SkillTree : MonoBehaviour
     [SerializeField] TMP_Text cantBuyText;
 
     [SerializeField] StampSystem stampSystem;
-
+    
     [SerializeField] Sprite deskGreen;
     [SerializeField] Sprite tapeGreen;
     [SerializeField] Sprite noFanGreen;
@@ -53,8 +53,6 @@ public class SkillTree : MonoBehaviour
     [SerializeField] Sprite staplerGreen;
 
     public Skill[] skillImages = new Skill[8];
-
-
     // Start is called before the first frame update
 
     void Awake()
@@ -179,7 +177,6 @@ public class SkillTree : MonoBehaviour
                     }
                 }
             }
-
         }
         else
         {
