@@ -20,12 +20,12 @@ public class StampSystem : MonoBehaviour
     private StampType currentStamp;
     public StampType correctStamp;
 
-    [SerializeField] GameObject identifyButton;
-    [SerializeField] GameObject introduceButton;
-    [SerializeField] GameObject interestButton;
-    [SerializeField] GameObject investButton;
-    [SerializeField] GameObject informButton;
-    [SerializeField] GameObject reInvestButton;
+    public GameObject identifyButton;
+    public GameObject introduceButton;
+    public GameObject interestButton;
+    public GameObject investButton;
+    public GameObject informButton;
+    public GameObject reInvestButton;
 
     public List<Button> buttons = new List<Button>();
 
@@ -51,6 +51,13 @@ public class StampSystem : MonoBehaviour
 
     private bool reviewScreen = false;
 
+    public GameObject normalDesk;
+    public GameObject bigDesk;
+    public GameObject lowerChairs;
+    public GameObject lowerChairsLower;
+    public GameObject upperChairs;
+    public GameObject upperChairsHigher;
+
 
     public Dictionary<int,Dictionary<StampType, StampType>> finishedProfiles = new Dictionary<int, Dictionary<StampType, StampType>>();
 
@@ -75,8 +82,6 @@ public class StampSystem : MonoBehaviour
         allDonors.Add(donor2);
         allDonors.Add(donor3);  
         allDonors.Add(donor4);
-
-
     }
 
     // Update is called once per frame
@@ -89,8 +94,6 @@ public class StampSystem : MonoBehaviour
                 RoundOver();
                 reviewScreen = true;
             }
-            
-            
         }
     }
 
