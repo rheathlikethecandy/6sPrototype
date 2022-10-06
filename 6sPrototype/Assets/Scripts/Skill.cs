@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Skill : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public SkillTree skillTree;
-    [SerializeField] SkillTree.SkillType skillType;
+    public SkillTree.SkillType skillType;
     public Button buySkillButton;
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -28,7 +28,12 @@ public class Skill : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         skillTree = GameObject.FindWithTag("Skill Tree System").GetComponent<SkillTree>();
         buySkillButton = skillTree.skillTexts[skillType].GetComponentInChildren(typeof(Button)) as Button;
-        buySkillButton.GetComponent<Button>().onClick.AddListener(delegate { skillTree.BuyASkill(skillType); });
+        buySkillButton.GetComponent<Button>().onClick.AddListener(delegate {BuySkill(); });
+    }
+
+    void BuySkill()
+    {
+        skillTree.BuyASkill(skillType);
     }
 
     IEnumerator HideSkillText()
