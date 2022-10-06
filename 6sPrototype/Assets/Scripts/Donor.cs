@@ -21,6 +21,7 @@ public class Donor : MonoBehaviour
 
     private Vector2 initPos;
 
+    public bool onDesk = true;
 
     // Start is called before the first frame update
     void Start()
@@ -126,6 +127,10 @@ public class Donor : MonoBehaviour
                 speechBubble.SetActive(false);
             }
         }
+        if (other.gameObject.tag == "Desk")
+        {
+            onDesk = true;
+        }
     }
 
     public void OnTriggerExit2D(Collider2D other)
@@ -133,6 +138,10 @@ public class Donor : MonoBehaviour
         if (other.gameObject.tag == "Processing Folder")
         {
             draggedOverFolder = false;
+        }
+        if (other.gameObject.tag == "Desk")
+        {
+            onDesk = false;
         }
     }
 
