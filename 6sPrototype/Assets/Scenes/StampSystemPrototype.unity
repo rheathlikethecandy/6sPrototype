@@ -2235,6 +2235,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 604788444}
     m_Modifications:
+    - target: {fileID: 3789714997919238582, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
+      propertyPath: stampSystem
+      value: 
+      objectReference: {fileID: 5396846}
     - target: {fileID: 3789714997919238588, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
       propertyPath: m_Name
       value: Donor (2)
@@ -4045,10 +4049,6 @@ RectTransform:
   - {fileID: 1108447708}
   - {fileID: 2066087919}
   - {fileID: 614731494}
-  - {fileID: 438273751}
-  - {fileID: 1263906174}
-  - {fileID: 1738360069}
-  - {fileID: 352961507}
   - {fileID: 2059393994}
   - {fileID: 839556564}
   - {fileID: 447435311}
@@ -4061,6 +4061,10 @@ RectTransform:
   - {fileID: 1963526199}
   - {fileID: 1790694740}
   - {fileID: 627269571}
+  - {fileID: 438273751}
+  - {fileID: 1263906174}
+  - {fileID: 1738360069}
+  - {fileID: 352961507}
   - {fileID: 177808569}
   - {fileID: 1485876307}
   - {fileID: 98296172}
@@ -8674,6 +8678,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 604788444}
     m_Modifications:
+    - target: {fileID: 3789714997919238582, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
+      propertyPath: stampSystem
+      value: 
+      objectReference: {fileID: 5396846}
     - target: {fileID: 3789714997919238588, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
       propertyPath: m_Name
       value: Donor(0)
@@ -12353,6 +12361,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 604788444}
     m_Modifications:
+    - target: {fileID: 3789714997919238582, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
+      propertyPath: stampSystem
+      value: 
+      objectReference: {fileID: 5396846}
     - target: {fileID: 3789714997919238588, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
       propertyPath: m_Name
       value: Donor (1)
