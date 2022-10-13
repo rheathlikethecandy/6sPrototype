@@ -2090,6 +2090,23 @@ MonoBehaviour:
   skillPointsText: {fileID: 0}
   cantBuyText: {fileID: 0}
   stampSystem: {fileID: 0}
+  deskGreen: {fileID: 0}
+  tapeGreen: {fileID: 0}
+  noFanGreen: {fileID: 0}
+  smallStampGreen: {fileID: 0}
+  multiStampGreen: {fileID: 0}
+  highlighterGreen: {fileID: 0}
+  compressGreen: {fileID: 0}
+  staplerGreen: {fileID: 0}
+  skillImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &299747285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2239,6 +2256,10 @@ PrefabInstance:
       propertyPath: stampSystem
       value: 
       objectReference: {fileID: 5396846}
+    - target: {fileID: 3789714997919238582, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
+      propertyPath: speechBubble
+      value: 
+      objectReference: {fileID: 627269570}
     - target: {fileID: 3789714997919238588, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
       propertyPath: m_Name
       value: Donor (2)
@@ -8682,6 +8703,10 @@ PrefabInstance:
       propertyPath: stampSystem
       value: 
       objectReference: {fileID: 5396846}
+    - target: {fileID: 3789714997919238582, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
+      propertyPath: speechBubble
+      value: 
+      objectReference: {fileID: 627269570}
     - target: {fileID: 3789714997919238588, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
       propertyPath: m_Name
       value: Donor(0)
@@ -12365,6 +12390,10 @@ PrefabInstance:
       propertyPath: stampSystem
       value: 
       objectReference: {fileID: 5396846}
+    - target: {fileID: 3789714997919238582, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
+      propertyPath: speechBubble
+      value: 
+      objectReference: {fileID: 627269570}
     - target: {fileID: 3789714997919238588, guid: 756ad74e0ceaa6e429317ba2682db1ca, type: 3}
       propertyPath: m_Name
       value: Donor (1)
@@ -12647,6 +12676,23 @@ MonoBehaviour:
   skillPointsText: {fileID: 71289352}
   cantBuyText: {fileID: 557367450}
   stampSystem: {fileID: 5396846}
+  deskGreen: {fileID: 0}
+  tapeGreen: {fileID: 0}
+  noFanGreen: {fileID: 0}
+  smallStampGreen: {fileID: 0}
+  multiStampGreen: {fileID: 0}
+  highlighterGreen: {fileID: 0}
+  compressGreen: {fileID: 0}
+  staplerGreen: {fileID: 0}
+  skillImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &1763660675
 Transform:
   m_ObjectHideFlags: 0
