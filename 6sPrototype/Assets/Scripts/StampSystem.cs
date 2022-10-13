@@ -67,6 +67,10 @@ public class StampSystem : MonoBehaviour
 
     [SerializeField] SkillTree skillTree;
 
+    public bool speedProcessingOn = false;
+    [SerializeField] TMP_Text speedProcessingText;
+
+    public bool sixStamps = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -130,6 +134,12 @@ public class StampSystem : MonoBehaviour
         {
             if (currentStamp != StampType.Interest)
             {
+                if(speedProcessingOn)
+                {
+                    speedProcessingText.transform.parent.gameObject.SetActive(true);
+                    speedProcessingText.text = "Correct!";
+                    StartCoroutine(HideSpeedProcessingText());
+                }
                 playerPoints += 200;
                 skillTree.skillPoints += 1;
                 Dictionary<StampType, StampType> stampPair = new Dictionary<StampType, StampType>();
@@ -146,6 +156,12 @@ public class StampSystem : MonoBehaviour
         }
         else
         {
+            if(speedProcessingOn)
+            {
+                speedProcessingText.transform.parent.gameObject.SetActive(true);
+                speedProcessingText.text = "Incorrect :(";
+                StartCoroutine(HideSpeedProcessingText());
+            }
             playerPoints -= 100;
             Dictionary<StampType, StampType> stampPair = new Dictionary<StampType, StampType>();
             stampPair.Add(correctStamp, currentStamp);
@@ -187,30 +203,50 @@ public class StampSystem : MonoBehaviour
 
     void ShowInterestButtons()
     {
-        identifyButton.gameObject.SetActive(false);
-        introduceButton.gameObject.SetActive(false);
-        interestButton.gameObject.SetActive(false);
-
         investButton.gameObject.SetActive(true);
         informButton.gameObject.SetActive(true);
         reInvestButton.gameObject.SetActive(true);
+        if (!sixStamps)
+        {
+            identifyButton.gameObject.SetActive(false);
+            introduceButton.gameObject.SetActive(false);
+            interestButton.gameObject.SetActive(false);
 
-        investButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-        informButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-        reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-
+            investButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            informButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        }
+        else
+        {
+            identifyButton.gameObject.SetActive(true);
+            introduceButton.gameObject.SetActive(true);
+            interestButton.gameObject.SetActive(true);
+        }
     }
 
     public void ShowInitButtons()
     {
-        investButton.gameObject.SetActive(false);
-        informButton.gameObject.SetActive(false);
-        reInvestButton.gameObject.SetActive(false);
-
         identifyButton.gameObject.SetActive(true);
         introduceButton.gameObject.SetActive(true);
         interestButton.gameObject.SetActive(true);
+        if (!sixStamps)
+        {
+            investButton.gameObject.SetActive(false);
+            informButton.gameObject.SetActive(false);
+            reInvestButton.gameObject.SetActive(false);
+
+            identifyButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            introduceButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            interestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        }
+        else
+        {
+            investButton.gameObject.SetActive(true);
+            informButton.gameObject.SetActive(true);
+            reInvestButton.gameObject.SetActive(true);
+        }
     }
+       
 
     void HideAllButtons()
     {
@@ -268,9 +304,9 @@ public class StampSystem : MonoBehaviour
         {
             currentDonor.isStamped = true;
             currentDonor.stampedImage.gameObject.SetActive(true);
-            button.gameObject.GetComponent<Draggable>().ResetPosition();
+            
             currentDonor.gameObject.GetComponent<Draggable>().draggable = true;
-            //currentDonor.gameObject.GetComponent<Draggable>().ResetPosition();
+           
             if (speechBubble.gameObject.activeInHierarchy)
             {
                 speechBubble.ChangeToText4();
@@ -284,6 +320,17 @@ public class StampSystem : MonoBehaviour
                 speechBubble.ChangeToText3();
             }
         }
+        button.gameObject.GetComponent<Draggable>().ResetPosition();
+    }
+
+    public void ResetButtonPosition()
+    {
+        investButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        informButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        identifyButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        introduceButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        interestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
     }
 
     void RoundOver()
@@ -313,6 +360,12 @@ public class StampSystem : MonoBehaviour
         timer.sec = 0f;
         points.text = "Points: " + playerPoints.ToString();
         reviewScreen = false;
+    }
+
+    IEnumerator HideSpeedProcessingText()
+    {
+        yield return new WaitForSeconds(3f);
+        speedProcessingText.transform.parent.gameObject.SetActive(false); ;
     }
 
 }

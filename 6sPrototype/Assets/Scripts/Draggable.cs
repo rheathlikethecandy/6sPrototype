@@ -10,7 +10,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private Vector2 offset;
 
     public bool draggable = false;
-    private Vector2 startingPos;
+    public Vector2 startingPos;
 
     [SerializeField] StampSystem stampSystem;
 
@@ -79,5 +79,8 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void ResetPosition()
     {
         transform.position = startingPos;
+        stampSystem.ResetButtonPosition();
     }
+
+  
 }

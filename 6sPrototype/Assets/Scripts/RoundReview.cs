@@ -58,6 +58,13 @@ public class RoundReview : MonoBehaviour
                 }
             }
         }
+        if(stampSystem.finishedProfiles.Count < 4)
+        {
+            for (int i=4; i>stampSystem.finishedProfiles.Count; i--)
+            {
+                donorTexts[i-1].text = "You didn't finish Donor #" + i.ToString();
+            }
+        }
         roundNum += 1;
     }
 }

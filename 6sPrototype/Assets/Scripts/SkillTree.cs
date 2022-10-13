@@ -16,8 +16,8 @@ public class SkillTree : MonoBehaviour
         SmallerStamp,
         MultiStamp,
         Highlighter,
-        Compress,
-        Stapler
+        SpeedProcess,
+        SixStamps
     }
 
     public Dictionary<SkillType, int> skillCosts = new Dictionary<SkillType, int>();
@@ -33,8 +33,8 @@ public class SkillTree : MonoBehaviour
     [SerializeField] GameObject smallerStampText;
     [SerializeField] GameObject multiStampText;
     [SerializeField] GameObject highlighterText;
-    [SerializeField] GameObject compressText;
-    [SerializeField] GameObject staplerText;
+    [SerializeField] GameObject speedProcessText;
+    [SerializeField] GameObject sixStampsText;
 
     public GameObject currentText;
 
@@ -49,8 +49,8 @@ public class SkillTree : MonoBehaviour
     [SerializeField] Sprite smallStampGreen;
     [SerializeField] Sprite multiStampGreen;
     [SerializeField] Sprite highlighterGreen;
-    [SerializeField] Sprite compressGreen;
-    [SerializeField] Sprite staplerGreen;
+    [SerializeField] Sprite speedProcessGreen;
+    [SerializeField] Sprite sixStampsGreen;
 
     public Skill[] skillImages = new Skill[8];
 
@@ -84,13 +84,13 @@ public class SkillTree : MonoBehaviour
         skillFunctions.Add(SkillType.Highlighter, HighlighterFunction);
         skillTexts.Add(SkillType.Highlighter, highlighterText);
 
-        skillCosts.Add(SkillType.Compress, 4);
-        skillFunctions.Add(SkillType.Compress, CompressFunction);
-        skillTexts.Add(SkillType.Compress, compressText);
+        skillCosts.Add(SkillType.SpeedProcess, 4);
+        skillFunctions.Add(SkillType.SpeedProcess, SpeedProcessFunction);
+        skillTexts.Add(SkillType.SpeedProcess, speedProcessText);
 
-        skillCosts.Add(SkillType.Stapler, 4);
-        skillFunctions.Add(SkillType.Stapler, StaplerFunction);
-        skillTexts.Add(SkillType.Stapler, staplerText);
+        skillCosts.Add(SkillType.SixStamps, 4);
+        skillFunctions.Add(SkillType.SixStamps, SixStampsFunction);
+        skillTexts.Add(SkillType.SixStamps, sixStampsText);
 
         unlockedSkills.Add(SkillType.BiggerDesk);
     }
@@ -169,13 +169,13 @@ public class SkillTree : MonoBehaviour
                     { 
                         skillImage.gameObject.GetComponent<Image>().sprite = highlighterGreen;
                     }
-                    else if (skill == SkillType.Compress)
+                    else if (skill == SkillType.SpeedProcess)
                     {
-                        skillImage.gameObject.GetComponent<Image>().sprite = compressGreen;
+                        skillImage.gameObject.GetComponent<Image>().sprite = speedProcessGreen;
                     }
-                    else if (skill == SkillType.Stapler)
+                    else if (skill == SkillType.SixStamps)
                     {
-                        skillImage.gameObject.GetComponent<Image>().sprite = staplerGreen;
+                        skillImage.gameObject.GetComponent<Image>().sprite = sixStampsGreen;
                     }
                 }
             }
@@ -250,13 +250,13 @@ public class SkillTree : MonoBehaviour
             {
                 unlockedSkills.Add(SkillType.Highlighter);
             }
-            if (!unlockedSkills.Contains(SkillType.Compress))
+            if (!unlockedSkills.Contains(SkillType.SpeedProcess))
             {
-                unlockedSkills.Add(SkillType.Compress);
+                unlockedSkills.Add(SkillType.SpeedProcess);
             }
             foreach (Skill skillImage in skillImages)
             {
-                if (skillImage.skillType == SkillType.Highlighter || skillImage.skillType == SkillType.Compress)
+                if (skillImage.skillType == SkillType.Highlighter || skillImage.skillType == SkillType.SpeedProcess)
                 {
                     Image image = skillImage.gameObject.GetComponent<Image>();
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
@@ -265,14 +265,14 @@ public class SkillTree : MonoBehaviour
         }
         else if (skill == SkillType.SmallerStamp)
         {
-            if (!unlockedSkills.Contains(SkillType.Compress))
+            if (!unlockedSkills.Contains(SkillType.SpeedProcess))
             {
-                unlockedSkills.Add(SkillType.Compress);
+                unlockedSkills.Add(SkillType.SpeedProcess);
             }
-            unlockedSkills.Add(SkillType.Stapler);
+            unlockedSkills.Add(SkillType.SixStamps);
             foreach (Skill skillImage in skillImages)
             {
-                if (skillImage.skillType == SkillType.Compress || skillImage.skillType == SkillType.Stapler)
+                if (skillImage.skillType == SkillType.SpeedProcess || skillImage.skillType == SkillType.SixStamps)
                 {
                     Image image = skillImage.gameObject.GetComponent<Image>();
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
@@ -329,14 +329,51 @@ public class SkillTree : MonoBehaviour
         // Highlight specific, important info on donor sheets
     }
 
-    void CompressFunction()
+    void SpeedProcessFunction()
     {
-        // Compress donor info so it fits on one page
+        stampSystem.speedProcessingOn = true;
     }
 
-    void StaplerFunction()
+    void SixStampsFunction()
     {
-        // Staple profile papers together 
-        // To do this, we first have to make it so there is more than one physical page per donor profile, instead of just a button to switch to a new page
+        Vector3 newScale = new Vector3(.6f, .6f, .6f);
+        stampSystem.identifyButton.transform.localScale = newScale;
+        stampSystem.introduceButton.transform.localScale = newScale;
+        stampSystem.interestButton.transform.localScale = newScale;
+        stampSystem.investButton.transform.localScale = newScale;
+        stampSystem.informButton.transform.localScale = newScale;
+        stampSystem.reInvestButton.transform.localScale = newScale;
+
+
+        stampSystem.identifyButton.transform.localPosition = new Vector3(-281, -86, 0);
+        stampSystem.identifyButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        stampSystem.identifyButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().startingPos = stampSystem.identifyButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().transform.position;
+
+        stampSystem.introduceButton.transform.localPosition = new Vector3(-168, -86, 0);
+        stampSystem.introduceButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        stampSystem.introduceButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().startingPos = stampSystem.introduceButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().transform.position;
+
+        stampSystem.interestButton.transform.localPosition = new Vector3(-52, -86, 0);
+        stampSystem.interestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        stampSystem.interestButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().startingPos = stampSystem.interestButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().transform.position;
+
+        stampSystem.investButton.transform.localPosition = new Vector3(63, -86, 0);
+        stampSystem.investButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        stampSystem.investButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().startingPos = stampSystem.investButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().transform.position;
+
+        stampSystem.informButton.transform.localPosition = new Vector3(177, -86, 0);
+        stampSystem.informButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        stampSystem.informButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().startingPos = stampSystem.informButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().transform.position;
+
+        stampSystem.reInvestButton.transform.localPosition = new Vector3(290, -86, 0);
+        stampSystem.reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        stampSystem.reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().startingPos = stampSystem.reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().transform.position;
+
+      
+
+
+
+
+        stampSystem.sixStamps = true;
     }
 }
