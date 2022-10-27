@@ -21,7 +21,7 @@ public class Timer : MonoBehaviour
         sec -= Time.deltaTime;
         if (sec<=0)
         {
-            sec = 59f;
+            sec = 60f;
             min -= 1;
         }
         if (sec>9)
