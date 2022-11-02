@@ -17,6 +17,7 @@ public class Donor : MonoBehaviour
     [SerializeField] GameObject speechBubble;
     [SerializeField] GameObject text;
     [SerializeField] InfoDumper dumper;
+    [SerializeField] GameObject splotch;
 
     public GameObject stampedImage;
     //holds generated info to be displayed
@@ -152,6 +153,25 @@ public class Donor : MonoBehaviour
     public void ResetPos()
     {
         transform.position = initPos;
+    }
+
+    public void Spill()
+    {
+        Debug.Log("donor coroutine");
+        StartCoroutine(Splotchy());
+    }
+
+    IEnumerator Splotchy()
+    {
+        float timePassed = 0;
+        splotch.SetActive(true);
+        while (timePassed < 8)
+        {
+            timePassed += Time.deltaTime;
+
+            yield return null;
+        }
+        splotch.SetActive(false);
     }
 }
 
