@@ -16,6 +16,8 @@ public class Timer : MonoBehaviour
     void Start()
     {
         InvokeRepeating("DoRandom", 5.0f, 4.5f);
+        min = 5;
+        sec = 1;
     }
 
     // Update is called once per frame
@@ -24,7 +26,7 @@ public class Timer : MonoBehaviour
         sec -= Time.deltaTime;
         if (sec<=0)
         {
-            sec = 59f;
+            sec = 60f;
             min -= 1;
         }
         if (sec>9)
