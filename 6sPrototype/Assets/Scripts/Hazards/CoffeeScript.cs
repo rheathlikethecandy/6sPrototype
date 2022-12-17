@@ -18,12 +18,10 @@ public class CoffeeScript : MonoBehaviour
     }
     public void Fill()
     {
-        Debug.Log("fill");
         filler.SetActive(true);
     }
     public void Spill()
     {
-        Debug.Log("spill");
         filler.SetActive(false);
     }
 }

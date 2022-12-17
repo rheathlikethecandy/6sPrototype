@@ -7,7 +7,7 @@ public class PhoneScript : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] List<GameObject> callable;
     [SerializeField] float speed = 5.0f;
-    [SerializeField] float scale = 5.0f;
+    [SerializeField] AudioSource phoneSFX;
     private bool ringing = false;
     private IEnumerator ringer;
     // Start is called before the first frame update
@@ -25,21 +25,26 @@ public class PhoneScript : MonoBehaviour, IPointerDownHandler
     public void Call()
     {
         StartCoroutine(ringer);
+        StartCoroutine(ringer);
+        
     }
     public void EndCall()
     {
-        Debug.Log("STOP");
         if (ringing == true)
         {
+            Debug.Log("STOP PHONE");
             StopCoroutine(ringer);
             ringer = Jitter();
             ringing = false;
+            phoneSFX.Pause();
         }
         ResetJit();
     }
 
     IEnumerator Jitter()
     {
+        Debug.Log("PHONE RINGING");
+        phoneSFX.Play();
         ringing = true;
         float timePassed = 0;
         while (timePassed < 15)
@@ -50,15 +55,16 @@ public class PhoneScript : MonoBehaviour, IPointerDownHandler
             yield return null;
         }
         ringing = false;
+        phoneSFX.Pause();
     }
     public void CallJit()
     {
         foreach (GameObject element in callable)
         {
             element.transform.localPosition = (20 * (new Vector3(
-                Mathf.PerlinNoise(speed * Time.time, Random.Range(0.0f,80.0f)),
-                Mathf.PerlinNoise(speed * Time.time, Random.Range(0.0f, 80.0f)),
-                Mathf.PerlinNoise(speed * Time.time, Random.Range(0.0f, 80.0f)))));
+                Mathf.PerlinNoise(speed * Time.time, Random.Range(0.0f, 60.0f)),
+                Mathf.PerlinNoise(speed * Time.time, Random.Range(0.0f, 60.0f)),
+                Mathf.PerlinNoise(speed * Time.time, Random.Range(0.0f, 60.0f)))));
         }
     }
     public void ResetJit()

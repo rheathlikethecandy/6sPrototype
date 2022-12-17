@@ -27,11 +27,13 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (dragging && draggable && Input.GetMouseButton(0))
         {
+
             if (gameObject.GetComponent<Donor>() != null)
             {
                 if (gameObject.GetComponent<Donor>().onDesk == true)
                 {
-                    transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - offset;
+                    Vector2 newPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - offset;
+                    transform.position = new Vector3(newPos.x, newPos.y, -5);
                 }
                 else
                 {

@@ -17,10 +17,8 @@ public class Filler : MonoBehaviour
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Trigger triggered");
         if (other.GetComponent<Donor>() != null)
         {
-            Debug.Log("collided with filler");
             other.GetComponent<Donor>().Spill();
             this.transform.parent.GetComponent<CoffeeScript>().Spill();
         }

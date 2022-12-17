@@ -8,6 +8,7 @@ public class Timer : MonoBehaviour
 {
     public int min = 5;
     public float sec = 0;
+    public bool papersTapedDown;
     [SerializeField] GameObject fan;
     [SerializeField] GameObject phone;
     [SerializeField] GameObject coffee;
@@ -59,19 +60,27 @@ public class Timer : MonoBehaviour
 
     public void DoFan()
     {
-        Debug.Log("fan\n");
-        fan.GetComponent<FanScript>().Blow();
+        if (!papersTapedDown && fan.activeInHierarchy)
+        {
+            fan.GetComponent<FanScript>().Blow();
+        }    
     }
 
     public void DoPhone()
     {
-        Debug.Log("phone\n");
-        phone.GetComponent<PhoneScript>().Call();
+        if (!papersTapedDown && phone.activeInHierarchy)
+        {
+            phone.GetComponent<PhoneScript>().Call();
+        }
     }
 
     public void DoCoffee()
     {
-        Debug.Log("coffee\n");
-        coffee.GetComponent<CoffeeScript>().Fill();
+       
+        if (coffee.activeInHierarchy)
+        {
+            coffee.GetComponent<CoffeeScript>().Fill();
+        }
+        
     }
 }

@@ -14,8 +14,6 @@ public class SkillTree : MonoBehaviour
         Tape,
         NoFan,
         SmallerStamp,
-        MultiStamp,
-        Highlighter,
         SpeedProcess,
         SixStamps
     }
@@ -31,8 +29,6 @@ public class SkillTree : MonoBehaviour
     [SerializeField] GameObject tapeText;
     [SerializeField] GameObject noFanText;
     [SerializeField] GameObject smallerStampText;
-    [SerializeField] GameObject multiStampText;
-    [SerializeField] GameObject highlighterText;
     [SerializeField] GameObject speedProcessText;
     [SerializeField] GameObject sixStampsText;
 
@@ -47,12 +43,13 @@ public class SkillTree : MonoBehaviour
     [SerializeField] Sprite tapeGreen;
     [SerializeField] Sprite noFanGreen;
     [SerializeField] Sprite smallStampGreen;
-    [SerializeField] Sprite multiStampGreen;
-    [SerializeField] Sprite highlighterGreen;
     [SerializeField] Sprite speedProcessGreen;
     [SerializeField] Sprite sixStampsGreen;
 
     public Skill[] skillImages = new Skill[8];
+
+    [SerializeField] Timer timer;
+    [SerializeField] GameObject stopFanButton;
 
 
     // Start is called before the first frame update
@@ -63,10 +60,9 @@ public class SkillTree : MonoBehaviour
         skillFunctions.Add(SkillType.BiggerDesk, BiggerDeskFunction);
         skillTexts.Add(SkillType.BiggerDesk, deskText);
 
-        skillCosts.Add(SkillType.Tape, 3);
+        skillCosts.Add(SkillType.Tape, 4);
         skillFunctions.Add(SkillType.Tape, TapeFunction);
         skillTexts.Add(SkillType.Tape, tapeText);
-
 
         skillCosts.Add(SkillType.NoFan, 3);
         skillFunctions.Add(SkillType.NoFan, NoFanFunction);
@@ -75,14 +71,6 @@ public class SkillTree : MonoBehaviour
         skillCosts.Add(SkillType.SmallerStamp, 3);
         skillFunctions.Add(SkillType.SmallerStamp, SmallerStampFunction);
         skillTexts.Add(SkillType.SmallerStamp, smallerStampText);
-
-        skillCosts.Add(SkillType.MultiStamp, 4);
-        skillFunctions.Add(SkillType.MultiStamp, MultiStampFunction);
-        skillTexts.Add(SkillType.MultiStamp, multiStampText);
-
-        skillCosts.Add(SkillType.Highlighter, 4);
-        skillFunctions.Add(SkillType.Highlighter, HighlighterFunction);
-        skillTexts.Add(SkillType.Highlighter, highlighterText);
 
         skillCosts.Add(SkillType.SpeedProcess, 4);
         skillFunctions.Add(SkillType.SpeedProcess, SpeedProcessFunction);
@@ -93,17 +81,6 @@ public class SkillTree : MonoBehaviour
         skillTexts.Add(SkillType.SixStamps, sixStampsText);
 
         unlockedSkills.Add(SkillType.BiggerDesk);
-    }
-
-    void Start()
-    {
-       
-    }
-   
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void ShowText(SkillType skill)
@@ -161,14 +138,6 @@ public class SkillTree : MonoBehaviour
                     {
                         skillImage.gameObject.GetComponent<Image>().sprite = smallStampGreen;
                     }
-                    else if (skill == SkillType.MultiStamp)
-                    {
-                        skillImage.gameObject.GetComponent<Image>().sprite = multiStampGreen;
-                    }
-                    else if (skill == SkillType.Highlighter)
-                    { 
-                        skillImage.gameObject.GetComponent<Image>().sprite = highlighterGreen;
-                    }
                     else if (skill == SkillType.SpeedProcess)
                     {
                         skillImage.gameObject.GetComponent<Image>().sprite = speedProcessGreen;
@@ -216,28 +185,11 @@ public class SkillTree : MonoBehaviour
         skillImages = FindObjectsOfType<Skill>();
         if (skill == SkillType.BiggerDesk)
         {
-            unlockedSkills.Add(SkillType.Tape);
             unlockedSkills.Add(SkillType.NoFan);
             unlockedSkills.Add(SkillType.SmallerStamp);
             foreach (Skill skillImage in skillImages)
             {
-                if (skillImage.skillType == SkillType.Tape || skillImage.skillType == SkillType.NoFan || skillImage.skillType == SkillType.SmallerStamp)
-                {
-                    Image image = skillImage.gameObject.GetComponent<Image>();
-                    image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
-                }
-            }
-        }
-        else if (skill == SkillType.Tape)
-        {
-            unlockedSkills.Add(SkillType.MultiStamp);
-            if (!unlockedSkills.Contains(SkillType.Highlighter))
-            {
-                unlockedSkills.Add(SkillType.Highlighter);
-            }
-            foreach (Skill skillImage in skillImages)
-            {
-                if (skillImage.skillType == SkillType.MultiStamp || skillImage.skillType == SkillType.Highlighter)
+                if (skillImage.skillType == SkillType.NoFan || skillImage.skillType == SkillType.SmallerStamp)
                 {
                     Image image = skillImage.gameObject.GetComponent<Image>();
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
@@ -246,17 +198,14 @@ public class SkillTree : MonoBehaviour
         }
         else if (skill == SkillType.NoFan)
         {
-            if (!unlockedSkills.Contains(SkillType.Highlighter))
-            {
-                unlockedSkills.Add(SkillType.Highlighter);
-            }
             if (!unlockedSkills.Contains(SkillType.SpeedProcess))
             {
                 unlockedSkills.Add(SkillType.SpeedProcess);
             }
+            unlockedSkills.Add(SkillType.Tape);
             foreach (Skill skillImage in skillImages)
             {
-                if (skillImage.skillType == SkillType.Highlighter || skillImage.skillType == SkillType.SpeedProcess)
+                if (skillImage.skillType == SkillType.SpeedProcess || skillImage.skillType == SkillType.Tape)
                 {
                     Image image = skillImage.gameObject.GetComponent<Image>();
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
@@ -299,12 +248,12 @@ public class SkillTree : MonoBehaviour
 
     void TapeFunction()
     {
-        // Make it so donor papers can't move when the fan turns on 
+        timer.papersTapedDown = true;
     }
 
     void NoFanFunction()
     {
-        // Make "stop fan" button that stops the fan for up to 5 sec
+        stopFanButton.SetActive(true);
     }
 
     void SmallerStampFunction()
@@ -316,17 +265,6 @@ public class SkillTree : MonoBehaviour
         stampSystem.investButton.transform.localScale = newScale;
         stampSystem.informButton.transform.localScale = newScale;
         stampSystem.reInvestButton.transform.localScale = newScale;
-    }
-
-    void MultiStampFunction()
-    {
-        // Multiple stamps in one? 
-        // Kinds confused what this means
-    }
-
-    void HighlighterFunction()
-    {
-        // Highlight specific, important info on donor sheets
     }
 
     void SpeedProcessFunction()
@@ -343,7 +281,6 @@ public class SkillTree : MonoBehaviour
         stampSystem.investButton.transform.localScale = newScale;
         stampSystem.informButton.transform.localScale = newScale;
         stampSystem.reInvestButton.transform.localScale = newScale;
-
 
         stampSystem.identifyButton.transform.localPosition = new Vector3(-281, -86, 0);
         stampSystem.identifyButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
@@ -368,11 +305,6 @@ public class SkillTree : MonoBehaviour
         stampSystem.reInvestButton.transform.localPosition = new Vector3(290, -86, 0);
         stampSystem.reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
         stampSystem.reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().startingPos = stampSystem.reInvestButton.GetComponentInChildren<Button>().gameObject.GetComponent<Draggable>().transform.position;
-
-      
-
-
-
 
         stampSystem.sixStamps = true;
     }

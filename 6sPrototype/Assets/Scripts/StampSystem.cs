@@ -42,7 +42,7 @@ public class StampSystem : MonoBehaviour
     [SerializeField] Sprite folderImage;
     [SerializeField] GameObject processingFolder;
     [SerializeField] SpeechBubble speechBubble;
-    private int numDonorsComplete = 0;
+    public int numDonorsComplete = 0;
     public int numDonorsCorrect = 0;
 
     public int playerPoints = 0;
@@ -86,6 +86,7 @@ public class StampSystem : MonoBehaviour
         allDonors.Add(donor2);
         allDonors.Add(donor3);  
         allDonors.Add(donor4);
+
     }
 
     // Update is called once per frame
@@ -261,6 +262,7 @@ public class StampSystem : MonoBehaviour
 
     public void SetCurrentStamp(Button button)
     {
+        Debug.Log("stamping donor");
         if (button == identifyButton.GetComponentInChildren<Button>())
         {
             currentStamp = StampType.Identify;

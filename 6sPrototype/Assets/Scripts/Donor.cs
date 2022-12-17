@@ -44,7 +44,25 @@ public class Donor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (GetComponent<RectTransform>().localPosition.x < -300)
+        {
+            GetComponent<RectTransform>().localPosition = new Vector3(-300, GetComponent<RectTransform>().localPosition.y, GetComponent<RectTransform>().localPosition.z);
+        }
+        if (GetComponent<RectTransform>().localPosition.x > 367)
+        {
+            GetComponent<RectTransform>().localPosition = new Vector3(367, GetComponent<RectTransform>().localPosition.y, GetComponent<RectTransform>().localPosition.z);
+            // transform.position.x = 367;
+        }
+        if (GetComponent<RectTransform>().localPosition.y < -114)
+        {
+            GetComponent<RectTransform>().localPosition = new Vector3(GetComponent<RectTransform>().localPosition.x, -114, GetComponent<RectTransform>().localPosition.z);
+            // transform.position.y = -114;
+        }
+        if (GetComponent<RectTransform>().localPosition.y > 124)
+        {
+            GetComponent<RectTransform>().localPosition = new Vector3(GetComponent<RectTransform>().localPosition.x, 124, GetComponent<RectTransform>().localPosition.z);
+            // transform.position.y = -114;
+        }
     }
 
     public GenInfo GetInfo()
@@ -157,7 +175,6 @@ public class Donor : MonoBehaviour
 
     public void Spill()
     {
-        Debug.Log("donor coroutine");
         StartCoroutine(Splotchy());
     }
 
@@ -303,8 +320,8 @@ public class GenInfo
 
     public GenInfo()
     {
-        gender = (RandParseFile("Assets/text/gentext.txt"));
-        race = (RandParseFile("Assets/text/racetext.txt"));
+        gender = GetRandomLine(Resources.Load<TextAsset>("Text/gentext"));
+        race = GetRandomLine(Resources.Load<TextAsset>("Text/racetext"));
         int fiftyFifty = (int)Random.Range(0, 2);
         if (fiftyFifty < 1)
         {
@@ -314,14 +331,14 @@ public class GenInfo
         {
             age = ((int)(Random.Range(2.5f, 8.0f) * 10));
         }
-        clothing = (RandParseFile("Assets/text/clothtext.txt"));
-        personality = (RandParseFile("Assets/text/pertext.txt"));
-        likes = (RandParseFile("Assets/text/liketext.txt"));
-        dislikes = (RandParseFile("Assets/text/distext.txt"));
-        pob = (RandParseFile("Assets/text/pobtext.txt"));
-        education = (RandParseFile("Assets/text/edtext.txt"));
-        profession = (RandParseFile("Assets/text/protext.txt"));
-        history = (RandParseFile("Assets/text/histext.txt")); 
+        clothing = GetRandomLine(Resources.Load<TextAsset>("Text/clothtext"));
+        personality = GetRandomLine(Resources.Load<TextAsset>("Text/pertext"));
+        likes = GetRandomLine(Resources.Load<TextAsset>("Text/liketext"));
+        dislikes = GetRandomLine(Resources.Load<TextAsset>("Text/distext"));
+        pob = GetRandomLine(Resources.Load<TextAsset>("Text/pobtext"));
+        education = GetRandomLine(Resources.Load<TextAsset>("Text/edtext"));
+        profession = GetRandomLine(Resources.Load<TextAsset>("Text/protext"));
+        history = GetRandomLine(Resources.Load<TextAsset>("Text/histext")); 
         int maritalStatusInt = (int)(Random.Range(0.0f, 10.0f));
         if (maritalStatusInt < 3)
         {
@@ -348,7 +365,7 @@ public class GenInfo
     }
     public string RandParseFile(string filePath)
     {
-        //string path = Application.persistentDataPath + filePath;
+       // string path = Application.persistentDataPath + "\\" + filePath;
         StreamReader reader = new StreamReader(filePath);
         string text = "";
         int rand = (int)(Random.Range(0.0f, 1.0f) * 10f);
@@ -357,8 +374,19 @@ public class GenInfo
             text = reader.ReadLine();
         }
         reader.Close();
+        Debug.Log("Text: " + text);
         return text;
     }
+
+    private string GetRandomLine(TextAsset file)
+    {
+        var lines = file.text.Split('\n');
+
+        var randomIndex = Random.Range(0, lines.Length);
+
+        return lines[randomIndex];
+    }
+
     public string ParseFile(string filePath, int offSet)
     {
         string path = Application.persistentDataPath + filePath;

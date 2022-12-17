@@ -21,7 +21,7 @@ public class Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         EnableInfo();
-        Debug.Log("Enter");
+        Debug.Log("hovering over mag glass");
     }
     public void OnPointerExit(PointerEventData eventData)
     {
